@@ -1,9 +1,12 @@
+import Taro from '@tarojs/taro'
 import { useState, useEffect, useCallback } from 'react'
 import { loadPasscode, savePasscode } from '@/utils/storage'
 import { decryptDataKey, generateSalt, generatePasscodeKey, encryptDataKey, generateDataKey, clearDataKey } from '@/utils/crypto'
 import { Passcode, PasscodeType } from '@/types/passcode'
 import { GLOBAL_DATA } from '@/global/key'
 import { KDF_ITERATIONS } from '@/utils/pbkdf2'
+
+export const EVENT_PASSCODE_CHANGED = 'passcode_changed'
 
 /**
  * 口令状态
@@ -23,6 +26,22 @@ export function usePasscode() {
       setPasscode(data)
       setStatus(data ? 'locked' : 'unset')
     })
+    // 跨页面同步：更改口令页面调用 change 后，其他页面的 usePasscode 实例刷新本地状态
+    // 以保证首页在锁定后能用新口令正确解密数据密钥。
+    const handler = () => {
+      loadPasscode().then((data) => {
+        setPasscode(data)
+        setStatus((prev) => {
+          // 解锁状态下更改口令：内存中数据密钥未变，保持解锁；否则回到锁定/未设置
+          if (data && prev === 'unlocked') return 'unlocked'
+          return data ? 'locked' : 'unset'
+        })
+      })
+    }
+    Taro.eventCenter.on(EVENT_PASSCODE_CHANGED, handler)
+    return () => {
+      Taro.eventCenter.off(EVENT_PASSCODE_CHANGED, handler)
+    }
   }, [])
 
   const setup = useCallback(async (type: PasscodeType, value: string) => {
@@ -68,6 +87,7 @@ export function usePasscode() {
     setPasscode({ type: newType, salt, iterations: KDF_ITERATIONS, edk })
     // 3. 保存新的口令配置
     await savePasscode({ type: newType, salt, iterations: KDF_ITERATIONS, edk })
+    Taro.eventCenter.trigger(EVENT_PASSCODE_CHANGED)
   }, [])
 
   return { status, passcode, setup, verify, lock, change }

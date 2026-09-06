@@ -12,7 +12,6 @@ import ImportDialog from '@/components/business/ImportDialog'
 import WebDAVDialog from '@/components/business/WebDAVDialog'
 import FirstUseNotice from '@/components/business/FirstUseNotice'
 import PasscodeGuard, { usePasscodeContext } from '@/components/business/Passcode/Guard'
-import ChangePasscode from '@/components/business/Passcode/Change'
 import FAB from '@/components/base/FAB'
 import Loading from '@/components/base/Loading'
 import Icon from '@/components/base/Icon'
@@ -48,7 +47,7 @@ function filterPasswords(list: Password[], keyword: string, tags: string[]): Pas
 }
 
 const IndexContent = () => {
-  const { unlocked, change, lock } = usePasscodeContext()
+  const { unlocked, lock } = usePasscodeContext()
   const { passwords, loading, remove, importMany, reload } = usePasswords(unlocked)
   const [searchVisible, setSearchVisible] = useState(false)
   const [searchKeyword, setSearchKeyword] = useState('')
@@ -61,7 +60,6 @@ const IndexContent = () => {
   const [exportVisible, setExportVisible] = useState(false)
   const [importVisible, setImportVisible] = useState(false)
   const [menuVisible, setMenuVisible] = useState(false)
-  const [changePasscodeVisible, setChangePasscodeVisible] = useState(false)
   const [webdavVisible, setWebdavVisible] = useState(false)
   // 监听其他页面（如关于页清空密码）对密码数据的变更，刷新列表
   useEffect(() => {
@@ -140,7 +138,7 @@ const IndexContent = () => {
         key: 'changePasscode',
         label: '更改口令',
         icon: '🔑',
-        onClick: () => setChangePasscodeVisible(true),
+        onClick: () => Taro.navigateTo({ url: '/pages/changePasscode/index' }),
       },
       // 「设置」仅在非 RN 端展示：RN 端暂未适配该页面
       ...(process.env.TARO_ENV !== 'rn'
@@ -289,11 +287,6 @@ const IndexContent = () => {
           visible={importVisible}
           onImport={importMany}
           onClose={() => setImportVisible(false)}
-        />
-        <ChangePasscode
-          visible={changePasscodeVisible}
-          onChange={change}
-          onClose={() => setChangePasscodeVisible(false)}
         />
         <WebDAVDialog
           visible={webdavVisible}

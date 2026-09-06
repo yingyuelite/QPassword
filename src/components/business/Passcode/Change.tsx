@@ -4,20 +4,18 @@ import { showLoading, hideLoading } from '@/utils/loading'
 import { showToast } from '@/utils/toast'
 import PatternLock from '@/components/business/PatternLock'
 import SafeInput from '@/components/base/SafeInput'
-import Modal from '@/components/base/Modal'
 import Button from '@/components/base/Button'
 import { PasscodeType } from '@/types/passcode'
 import './index.scss'
 
 interface ChangePasscodeProps {
-  visible: boolean
   onChange: (newType: PasscodeType, newValue: string) => Promise<void>
   onClose: () => void
 }
 
 type Step = 'choose' | 'pattern' | 'text'
 
-const ChangePasscode: React.FC<ChangePasscodeProps> = ({ visible, onChange, onClose }) => {
+const ChangePasscode: React.FC<ChangePasscodeProps> = ({ onChange, onClose }) => {
   const [step, setStep] = useState<Step>('choose')
   // 密码输入框最新值（非受控，逐键写入 ref，确认时读取）
   const inputRef = useRef('')
@@ -117,81 +115,79 @@ const ChangePasscode: React.FC<ChangePasscodeProps> = ({ visible, onChange, onCl
   }, [])
 
   return (
-    <Modal visible={visible} title="更改口令" onClose={handleClose}>
-      <View className="import-content">
-        {step === 'choose' && (
-          <>
-            <Text className="master-desc">请选择新的口令类型</Text>
-            <Text className="master-desc">请注意：不管是图案口令还是文字口令，请尽可能设置的长一点，因为口令越长数据越安全。</Text>
-            <View className="master-options">
-              <View className="master-option" onClick={() => setStep('pattern')}>
-                <Text className="master-option-icon">🔢</Text>
-                <Text className="master-option-title">图案口令</Text>
-                <Text className="master-option-desc">绘制图案作为口令</Text>
-              </View>
-              <View className="master-option" onClick={() => setStep('text')}>
-                <Text className="master-option-icon">🔤</Text>
-                <Text className="master-option-title">文字口令</Text>
-                <Text className="master-option-desc">输入文字作为口令</Text>
-              </View>
+    <View className="change-passcode">
+      {step === 'choose' && (
+        <>
+          <Text className="master-desc">请选择新的口令类型</Text>
+          <Text className="master-desc">请注意：不管是图案口令还是文字口令，请尽可能设置的长一点，因为口令越长数据越安全。</Text>
+          <View className="master-options">
+            <View className="master-option" onClick={() => setStep('pattern')}>
+              <Text className="master-option-icon">🔢</Text>
+              <Text className="master-option-title">图案口令</Text>
+              <Text className="master-option-desc">绘制图案作为口令</Text>
             </View>
-          </>
-        )}
+            <View className="master-option" onClick={() => setStep('text')}>
+              <Text className="master-option-icon">🔤</Text>
+              <Text className="master-option-title">文字口令</Text>
+              <Text className="master-option-desc">输入文字作为口令</Text>
+            </View>
+          </View>
+        </>
+      )}
 
-        {step === 'pattern' && (
-          <>
-            <Text className="master-title">
-              {patternFirst === null ? '绘制新图案' : '再次绘制确认'}
-            </Text>
-            <Text className="master-desc">至少连接4个点，越长越好</Text>
-            <PatternLock onChange={handlePatternComplete} />
-            <View className="master-actions">
-              <Button type="default" block onClick={() => { setStep('choose'); setPatternFirst(null) }}>返回</Button>
-            </View>
-          </>
-        )}
+      {step === 'pattern' && (
+        <>
+          <Text className="master-title">
+            {patternFirst === null ? '绘制新图案' : '再次绘制确认'}
+          </Text>
+          <Text className="master-desc">至少连接4个点，越长越好</Text>
+          <PatternLock onChange={handlePatternComplete} />
+          <View className="master-actions">
+            <Button type="default" block onClick={() => { setStep('choose'); setPatternFirst(null) }}>返回</Button>
+          </View>
+        </>
+      )}
 
-        {step === 'text' && (
-          <>
-            <Text className="master-title">设置新口令</Text>
-            <Text className="master-desc">口令至少4位，越长越好</Text>
-            <View className="master-field">
-              <Text className="master-label">输入新口令</Text>
-              <SafeInput
-                className="master-input"
-                type="text"
-                password
-                placeholder="请输入新口令"
-                defaultValue=""
-                onInput={handleInput1}
-              />
-            </View>
-            <View className="master-field">
-              <Text className="master-label">确认新口令</Text>
-              <SafeInput
-                className="master-input"
-                type="text"
-                password
-                placeholder="请再次输入新口令"
-                defaultValue=""
-                onInput={handleInput2}
-              />
-            </View>
-            <View className="master-actions">
-              <Button type="default" block onClick={() => setStep('choose')}>返回</Button>
-              <Button
-                type="primary"
-                block
-                disabled={loadingRef.current}
-                onClick={handlePasswordConfirm}
-              >
-                {loadingRef.current ? '更改中...' : '确认'}
-              </Button>
-            </View>
-          </>
-        )}
-      </View>
-    </Modal>
+      {step === 'text' && (
+        <>
+          <Text className="master-title">设置新口令</Text>
+          <Text className="master-desc">口令至少4位，越长越好</Text>
+          <View className="master-field">
+            <Text className="master-label">输入新口令</Text>
+            <SafeInput
+              className="master-input"
+              type="text"
+              password
+              placeholder="请输入新口令"
+              defaultValue=""
+              onInput={handleInput1}
+            />
+          </View>
+          <View className="master-field">
+            <Text className="master-label">确认新口令</Text>
+            <SafeInput
+              className="master-input"
+              type="text"
+              password
+              placeholder="请再次输入新口令"
+              defaultValue=""
+              onInput={handleInput2}
+            />
+          </View>
+          <View className="master-actions">
+            <Button type="default" block onClick={() => setStep('choose')}>返回</Button>
+            <Button
+              type="primary"
+              block
+              disabled={loadingRef.current}
+              onClick={handlePasswordConfirm}
+            >
+              {loadingRef.current ? '更改中...' : '确认'}
+            </Button>
+          </View>
+        </>
+      )}
+    </View>
   )
 }
 
