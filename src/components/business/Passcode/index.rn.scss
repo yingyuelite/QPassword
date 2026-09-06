@@ -1,0 +1,130 @@
+.master-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.master-card {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 150px;
+}
+
+.master-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.master-desc {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: #999;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.master-options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.master-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 28px 24px;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  gap: 20px;
+}
+
+.master-option-icon {
+  font-size: 40px;
+  color: var(--text-primary, #333333);
+}
+
+.master-option-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.master-option-desc {
+  font-size: 24px;
+  color: #999;
+  margin-left: auto;
+}
+
+.master-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.master-label {
+  font-size: 24px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.master-input-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.master-input-field {
+  flex: 1;
+}
+
+.master-input {
+  flex: 1;
+  height: 72px;
+  font-size: 28px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 0 20px;
+}
+
+.master-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.pattern-wrap {
+  width: 100%;
+}
+
+.pattern-error {
+  opacity: 0.7;
+}

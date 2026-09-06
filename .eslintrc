@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "taro/react"
+  ],
+  "ignorePatterns": ["**/*.scss", "**/*.css", "**/*.md", "**/*.html", "**/*.xml", "**/*.xcw"],
+  "overrides": [
+    {
+      "files": ["**/*.js", "**/*.cjs", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+      "rules": {
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
+        "jsx-quotes": ["warn", "prefer-double"],
+        "import/no-commonjs": "off",
+        "semi": ["warn", "never"],
+        "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+        "object-curly-spacing": ["error", "always"]
+      }
+    },
+    {
+      "files": ["**/*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {}
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+1. 微信小程序正式发布时，需要将 `project.config.json` 中的 `miniprogramRoot` 改为 `dist/weapp-production`，开发调试时使用 dist/weapp-development 。

@@ -1,0 +1,112 @@
+// 主题变量表（浅色）
+$light-theme: (
+  --color-primary: #237166,
+  --color-danger: #e64340,
+  --color-warning: #e6a23c,
+
+  --bg-page: #f5f5f5,
+  --bg-card: #ffffff,
+  --bg-subtle: #f9f9f9,
+  --bg-hover: #f5f5f5,
+  --bg-danger: #fff0f0,
+  --bg-error: #fff2f0,
+  --bg-warning: #fff7e6,
+  --bg-autocomplete: #eef6f4,
+  --bg-pattern: #f4faf8,
+  --bg-tag: #e8f5e9,
+  --bg-selected: #f0faf8,
+  --pattern-dot: #d9e6e2,
+
+  --text-primary: #333333,
+  --text-secondary: #666666,
+  --text-hint: #999999,
+  --text-placeholder: #cccccc,
+  --text-on-primary: #ffffff,
+
+  --border: #eeeeee,
+  --border-strong: #dddddd,
+  --border-divider: #f0f0f0,
+
+  --mask: rgba(0, 0, 0, 0.5)
+);
+
+// 主题变量表（暗色）
+$dark-theme: (
+  --color-primary: #2e8b7a,
+  --color-danger: #ef5d5a,
+  --color-warning: #eab43f,
+
+  --bg-page: #1c1c1e,
+  --bg-card: #2c2c2e,
+  --bg-subtle: #3a3a3c,
+  --bg-hover: #3a3a3c,
+  --bg-danger: #4a2a2a,
+  --bg-error: #4a2a2a,
+  --bg-warning: #453a1f,
+  --bg-autocomplete: #263131,
+  --bg-pattern: #263131,
+  --bg-tag: #24413a,
+  --bg-selected: #24413a,
+  --pattern-dot: #3a4341,
+
+  --text-primary: #e5e5e7,
+  --text-secondary: #a1a1a6,
+  --text-hint: #8e8e93,
+  --text-placeholder: #5a5a5e,
+  --text-on-primary: #ffffff,
+
+  --border: #3a3a3c,
+  --border-strong: #48484a,
+  --border-divider: #3a3a3c,
+
+  --mask: rgba(0, 0, 0, 0.6)
+);
+
+// 微信小程序用 page 选择器（在 app.wxss 中声明变量供各页面继承），
+// H5 用 :root 选择器。分别输出，避免某个端不支持某选择器时导致整条规则失效。
+page {
+  @each $name, $value in $light-theme {
+    #{$name}: #{$value};
+  }
+}
+
+:root {
+  @each $name, $value in $light-theme {
+    #{$name}: #{$value};
+  }
+}
+
+// 暗色模式：跟随系统外观自动切换
+@media (prefers-color-scheme: dark) {
+  page {
+    @each $name, $value in $dark-theme {
+      #{$name}: #{$value};
+    }
+  }
+
+  :root {
+    @each $name, $value in $dark-theme {
+      #{$name}: #{$value};
+    }
+  }
+}
+
+// 手动强制主题：用户设置深色/浅色时覆盖"跟随系统"的 media query。
+// 微信小程序无法运行时修改 page 根元素的类，故由各页面根节点（ThemeRoot）挂上这些类，
+// 以元素自身的变量声明覆盖继承自 page/:root 的跟随系统变量值。
+// 深色/浅色类置于 media query 之后，同等特异性下源码顺序靠后者生效（h5 的 :root 场景）。
+.theme-light {
+  @each $name, $value in $light-theme {
+    #{$name}: #{$value};
+  }
+}
+
+.theme-dark {
+  @each $name, $value in $dark-theme {
+    #{$name}: #{$value};
+  }
+}
+
+.hover-style {
+  filter: brightness(120%); /* 提高亮度，让颜色变浅 */
+}

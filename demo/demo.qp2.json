@@ -1,0 +1,880 @@
+{
+  "version": 2,
+  "time": 1785249392082,
+  "passcode": null,
+  "passwords": [
+    {
+      "id": 1,
+      "createDate": 1781015792082,
+      "title": "Google Account",
+      "username": "alice@gmail.com",
+      "password": "P@ssw0rd_2024!",
+      "email": "alice@gmail.com",
+      "phone": "13800138001",
+      "weixin": "alice_wx",
+      "isTop": true,
+      "note": "",
+      "website": "https://accounts.google.com",
+      "tags": [
+        "google",
+        "email",
+        "social"
+      ]
+    },
+    {
+      "id": 2,
+      "createDate": 1781102192082,
+      "title": "GitHub",
+      "username": "alice_dev",
+      "password": "gh_abc123!@#",
+      "email": "alice.dev@outlook.com",
+      "phone": "13900139002",
+      "weixin": "",
+      "isTop": true,
+      "note": "",
+      "website": "https://github.com",
+      "tags": [
+        "dev",
+        "code"
+      ]
+    },
+    {
+      "id": 3,
+      "createDate": 1781188592082,
+      "title": "AWS Console",
+      "username": "alice.aws",
+      "password": "AwS$ecure456",
+      "email": "alice+aws@company.com",
+      "phone": "13600136003",
+      "weixin": "",
+      "isTop": true,
+      "note": "",
+      "website": "https://aws.amazon.com/console",
+      "tags": [
+        "dev",
+        "cloud",
+        "work"
+      ]
+    },
+    {
+      "id": 4,
+      "createDate": 1781274992082,
+      "title": "阿里云",
+      "username": "alice_aliyun",
+      "password": "AliYun#789xyz",
+      "email": "alice@company.cn",
+      "phone": "13700137004",
+      "weixin": "ali_wx",
+      "isTop": false,
+      "note": "",
+      "website": "https://aliyun.com",
+      "tags": [
+        "cloud",
+        "work",
+        "chinese"
+      ]
+    },
+    {
+      "id": 5,
+      "createDate": 1781361392082,
+      "title": "Twitter / X",
+      "username": "alice_x",
+      "password": "Tw1tter!@#",
+      "email": "alice.x@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://x.com",
+      "tags": [
+        "social",
+        "media"
+      ]
+    },
+    {
+      "id": 6,
+      "createDate": 1781447792082,
+      "title": "Instagram",
+      "username": "alice_insta",
+      "password": "Insta$ecure789",
+      "email": "alice.insta@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://instagram.com",
+      "tags": [
+        "social",
+        "media"
+      ]
+    },
+    {
+      "id": 7,
+      "createDate": 1781534192082,
+      "title": "LinkedIn",
+      "username": "alice.ln",
+      "password": "Link3d!nPass",
+      "email": "alice.linkedin@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://linkedin.com",
+      "tags": [
+        "social",
+        "work",
+        "career"
+      ]
+    },
+    {
+      "id": 8,
+      "createDate": 1781620592082,
+      "title": "Netflix",
+      "username": "alice_nf@outlook.com",
+      "password": "N3tfl!x2024",
+      "email": "alice_nf@outlook.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://netflix.com",
+      "tags": [
+        "entertainment",
+        "video"
+      ]
+    },
+    {
+      "id": 9,
+      "createDate": 1781706992082,
+      "title": "Spotify",
+      "username": "alice.spotify@gmail.com",
+      "password": "Sp0t!fy#Pass",
+      "email": "alice.spotify@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://spotify.com",
+      "tags": [
+        "entertainment",
+        "music"
+      ]
+    },
+    {
+      "id": 10,
+      "createDate": 1781793392082,
+      "title": "Apple ID",
+      "username": "alice.apple@icloud.com",
+      "password": "Appl3!D_2024",
+      "email": "alice.apple@icloud.com",
+      "phone": "13800138010",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://appleid.apple.com",
+      "tags": [
+        "apple",
+        "account"
+      ]
+    },
+    {
+      "id": 11,
+      "createDate": 1781879792082,
+      "title": "Microsoft Account",
+      "username": "alice_ms@outlook.com",
+      "password": "M$_c0rePass",
+      "email": "alice_ms@outlook.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://account.microsoft.com",
+      "tags": [
+        "microsoft",
+        "account"
+      ]
+    },
+    {
+      "id": 12,
+      "createDate": 1781966192082,
+      "title": "公司邮箱",
+      "username": "alice@company.com",
+      "password": "C0mp@ny!Mail",
+      "email": "alice@company.com",
+      "phone": "13600136120",
+      "weixin": "company_wx",
+      "isTop": false,
+      "note": "",
+      "website": "https://mail.company.com",
+      "tags": [
+        "work",
+        "email",
+        "company"
+      ]
+    },
+    {
+      "id": 13,
+      "createDate": 1782052592082,
+      "title": "公司 VPN",
+      "username": "alice_vpn",
+      "password": "VPN#C0mp@ny",
+      "email": "",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "vpn.company.com",
+      "tags": [
+        "work",
+        "vpn",
+        "company"
+      ]
+    },
+    {
+      "id": 14,
+      "createDate": 1782138992082,
+      "title": "公司内网",
+      "username": "alice_intra",
+      "password": "Intr@_2024!",
+      "email": "",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "http://intranet.company.com",
+      "tags": [
+        "work",
+        "internal",
+        "company"
+      ]
+    },
+    {
+      "id": 15,
+      "createDate": 1782225392082,
+      "title": "微信公众平台",
+      "username": "alice@company.cn",
+      "password": "WX_MP@2024",
+      "email": "alice@company.cn",
+      "phone": "13700137230",
+      "weixin": "mp_wx",
+      "isTop": false,
+      "note": "",
+      "website": "https://mp.weixin.qq.com",
+      "tags": [
+        "wechat",
+        "social",
+        "work"
+      ]
+    },
+    {
+      "id": 16,
+      "createDate": 1782311792082,
+      "title": "微信支付商户",
+      "username": "alice_merchant",
+      "password": "WxP@y!789",
+      "email": "alice@company.cn",
+      "phone": "13900139440",
+      "weixin": "merchant_wx",
+      "isTop": false,
+      "note": "",
+      "website": "https://pay.weixin.qq.com",
+      "tags": [
+        "wechat",
+        "payment",
+        "work"
+      ]
+    },
+    {
+      "id": 17,
+      "createDate": 1782398192082,
+      "title": "支付宝",
+      "username": "alice@alipay.com",
+      "password": "Al!P@y2024",
+      "email": "alice@alipay.com",
+      "phone": "13800138550",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://alipay.com",
+      "tags": [
+        "payment",
+        "finance"
+      ]
+    },
+    {
+      "id": 18,
+      "createDate": 1782484592082,
+      "title": "招商银行",
+      "username": "alice_cmb",
+      "password": "CMB#B@nk456",
+      "email": "",
+      "phone": "13800138660",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://cmbchina.com",
+      "tags": [
+        "bank",
+        "finance"
+      ]
+    },
+    {
+      "id": 19,
+      "createDate": 1782570992082,
+      "title": "工商银行",
+      "username": "alice_icbc",
+      "password": "ICBC!Pass12",
+      "email": "",
+      "phone": "13800138770",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://icbc.com.cn",
+      "tags": [
+        "bank",
+        "finance"
+      ]
+    },
+    {
+      "id": 20,
+      "createDate": 1782657392082,
+      "title": "微信钱包",
+      "username": "",
+      "password": "Wx$W@ll3t",
+      "email": "",
+      "phone": "13800138880",
+      "weixin": "alice_pay",
+      "isTop": false,
+      "note": "",
+      "website": "",
+      "tags": [
+        "wechat",
+        "payment",
+        "wallet"
+      ]
+    },
+    {
+      "id": 21,
+      "createDate": 1782743792082,
+      "title": "百度网盘",
+      "username": "alice_baidu",
+      "password": "B@iduD!sk99",
+      "email": "alice_baidu@163.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://pan.baidu.com",
+      "tags": [
+        "cloud",
+        "storage",
+        "chinese"
+      ]
+    },
+    {
+      "id": 22,
+      "createDate": 1782830192082,
+      "title": "腾讯云",
+      "username": "alice_tencent",
+      "password": "Tenc3nt!Cloud",
+      "email": "alice@tencent.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://cloud.tencent.com",
+      "tags": [
+        "cloud",
+        "dev",
+        "work"
+      ]
+    },
+    {
+      "id": 23,
+      "createDate": 1782916592082,
+      "title": "DigitalOcean",
+      "username": "alice_do",
+      "password": "DO#Cr@ck!23",
+      "email": "alice.do@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://digitalocean.com",
+      "tags": [
+        "dev",
+        "cloud",
+        "hosting"
+      ]
+    },
+    {
+      "id": 24,
+      "createDate": 1783002992082,
+      "title": "Vercel",
+      "username": "alice_dev",
+      "password": "V3rc3l!Depl0y",
+      "email": "alice.dev@outlook.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://vercel.com",
+      "tags": [
+        "dev",
+        "hosting"
+      ]
+    },
+    {
+      "id": 25,
+      "createDate": 1783089392082,
+      "title": "Cloudflare",
+      "username": "alice_cf",
+      "password": "Cl0udfl@re#1",
+      "email": "alice.cf@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://dash.cloudflare.com",
+      "tags": [
+        "dev",
+        "cdn",
+        "security"
+      ]
+    },
+    {
+      "id": 26,
+      "createDate": 1783175792082,
+      "title": "Docker Hub",
+      "username": "alice_docker",
+      "password": "D0ck3r!Hub",
+      "email": "alice.docker@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://hub.docker.com",
+      "tags": [
+        "dev",
+        "docker",
+        "container"
+      ]
+    },
+    {
+      "id": 27,
+      "createDate": 1783262192082,
+      "title": "npm",
+      "username": "alice_npm",
+      "password": "Npm_T0ken!@#",
+      "email": "alice.npm@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://npmjs.com",
+      "tags": [
+        "dev",
+        "package"
+      ]
+    },
+    {
+      "id": 28,
+      "createDate": 1783348592082,
+      "title": "Stack Overflow",
+      "username": "alice_so",
+      "password": "St@ck0v3r!",
+      "email": "alice.so@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://stackoverflow.com",
+      "tags": [
+        "dev",
+        "community"
+      ]
+    },
+    {
+      "id": 29,
+      "createDate": 1783434992082,
+      "title": "LeetCode",
+      "username": "alice_lc",
+      "password": "L33tC0d3!@#",
+      "email": "alice.lc@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://leetcode.com",
+      "tags": [
+        "dev",
+        "interview"
+      ]
+    },
+    {
+      "id": 30,
+      "createDate": 1783521392082,
+      "title": "Notion",
+      "username": "alice.notion@gmail.com",
+      "password": "N0t!0n_Pass",
+      "email": "alice.notion@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://notion.so",
+      "tags": [
+        "productivity",
+        "notes"
+      ]
+    },
+    {
+      "id": 31,
+      "createDate": 1783607792082,
+      "title": "飞书",
+      "username": "alice@company.cn",
+      "password": "F3ishu!Pass",
+      "email": "alice@company.cn",
+      "phone": "13600136990",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://feishu.cn",
+      "tags": [
+        "work",
+        "productivity",
+        "chinese"
+      ]
+    },
+    {
+      "id": 32,
+      "createDate": 1783694192082,
+      "title": "钉钉",
+      "username": "alice_dd",
+      "password": "D1ngD!ng123",
+      "email": "",
+      "phone": "13800138000",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://dingtalk.com",
+      "tags": [
+        "work",
+        "communication",
+        "chinese"
+      ]
+    },
+    {
+      "id": 33,
+      "createDate": 1783780592082,
+      "title": "Slack",
+      "username": "alice@company.com",
+      "password": "Sl@ck_W0rk!",
+      "email": "alice@company.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://slack.com",
+      "tags": [
+        "work",
+        "communication"
+      ]
+    },
+    {
+      "id": 34,
+      "createDate": 1783866992082,
+      "title": "Zoom",
+      "username": "alice.zoom@gmail.com",
+      "password": "Z00m!M33ting",
+      "email": "alice.zoom@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://zoom.us",
+      "tags": [
+        "work",
+        "video",
+        "communication"
+      ]
+    },
+    {
+      "id": 35,
+      "createDate": 1783953392082,
+      "title": "淘宝",
+      "username": "alice_taobao",
+      "password": "T@0b@0_2024",
+      "email": "alice_taobao@163.com",
+      "phone": "13800138111",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://taobao.com",
+      "tags": [
+        "shopping",
+        "chinese"
+      ]
+    },
+    {
+      "id": 36,
+      "createDate": 1784039792082,
+      "title": "京东",
+      "username": "alice_jd",
+      "password": "JingD0ng!99",
+      "email": "alice_jd@163.com",
+      "phone": "13800138222",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://jd.com",
+      "tags": [
+        "shopping",
+        "chinese"
+      ]
+    },
+    {
+      "id": 37,
+      "createDate": 1784126192082,
+      "title": "拼多多",
+      "username": "alice_pdd",
+      "password": "PDD!Sh0p456",
+      "email": "alice_pdd@163.com",
+      "phone": "13800138333",
+      "weixin": "pdd_wx",
+      "isTop": false,
+      "note": "",
+      "website": "https://pinduoduo.com",
+      "tags": [
+        "shopping",
+        "chinese"
+      ]
+    },
+    {
+      "id": 38,
+      "createDate": 1784212592082,
+      "title": "Amazon",
+      "username": "alice_amz@gmail.com",
+      "password": "Am@z0n!Buy",
+      "email": "alice_amz@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://amazon.com",
+      "tags": [
+        "shopping",
+        "global"
+      ]
+    },
+    {
+      "id": 39,
+      "createDate": 1784298992082,
+      "title": "Steam",
+      "username": "alice_steam",
+      "password": "St3@m_G@m3",
+      "email": "alice.steam@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://store.steampowered.com",
+      "tags": [
+        "entertainment",
+        "gaming"
+      ]
+    },
+    {
+      "id": 40,
+      "createDate": 1784385392082,
+      "title": "Epic Games",
+      "username": "alice_epic",
+      "password": "Ep!cG@mes!@#",
+      "email": "alice.epic@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://epicgames.com",
+      "tags": [
+        "entertainment",
+        "gaming"
+      ]
+    },
+    {
+      "id": 41,
+      "createDate": 1784471792082,
+      "title": "OpenAI",
+      "username": "alice_ai@gmail.com",
+      "password": "Ch@tGPT_2024",
+      "email": "alice_ai@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://platform.openai.com",
+      "tags": [
+        "ai",
+        "dev"
+      ]
+    },
+    {
+      "id": 42,
+      "createDate": 1784558192082,
+      "title": "Midjourney",
+      "username": "alice_mj",
+      "password": "MJ#Dr3am_Art",
+      "email": "alice.mj@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://midjourney.com",
+      "tags": [
+        "ai",
+        "design"
+      ]
+    },
+    {
+      "id": 43,
+      "createDate": 1784644592082,
+      "title": "Figma",
+      "username": "alice_figma@gmail.com",
+      "password": "F!gm@_D3sign",
+      "email": "alice_figma@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://figma.com",
+      "tags": [
+        "design",
+        "work"
+      ]
+    },
+    {
+      "id": 44,
+      "createDate": 1784730992082,
+      "title": "Canva",
+      "username": "alice.canva@gmail.com",
+      "password": "C@nv@_Pr0!",
+      "email": "alice.canva@gmail.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://canva.com",
+      "tags": [
+        "design",
+        "productivity"
+      ]
+    },
+    {
+      "id": 45,
+      "createDate": 1784817392082,
+      "title": "知乎",
+      "username": "alice_zhihu",
+      "password": "Zh!hu_2024",
+      "email": "alice_zhihu@163.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://zhihu.com",
+      "tags": [
+        "social",
+        "content",
+        "chinese"
+      ]
+    },
+    {
+      "id": 46,
+      "createDate": 1784903792082,
+      "title": "B站",
+      "username": "alice_bili",
+      "password": "B!liB!li789",
+      "email": "alice_bili@163.com",
+      "phone": "",
+      "weixin": "bili_wx",
+      "isTop": false,
+      "note": "",
+      "website": "https://bilibili.com",
+      "tags": [
+        "entertainment",
+        "video",
+        "chinese"
+      ]
+    },
+    {
+      "id": 47,
+      "createDate": 1784990192082,
+      "title": "豆瓣",
+      "username": "alice_douban",
+      "password": "D0ub@n!Book",
+      "email": "alice_douban@163.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://douban.com",
+      "tags": [
+        "social",
+        "books",
+        "chinese"
+      ]
+    },
+    {
+      "id": 48,
+      "createDate": 1785076592082,
+      "title": "QQ 邮箱",
+      "username": "alice_qq",
+      "password": "QQ_M@il!2024",
+      "email": "alice_qq@qq.com",
+      "phone": "",
+      "weixin": "qq_wx",
+      "isTop": false,
+      "note": "",
+      "website": "https://mail.qq.com",
+      "tags": [
+        "email",
+        "chinese",
+        "tencent"
+      ]
+    },
+    {
+      "id": 49,
+      "createDate": 1785162992082,
+      "title": "163 邮箱",
+      "username": "alice_163",
+      "password": "163!M@il#A",
+      "email": "alice_163@163.com",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "https://mail.163.com",
+      "tags": [
+        "email",
+        "chinese"
+      ]
+    },
+    {
+      "id": 50,
+      "createDate": 1785249392082,
+      "title": "路由器管理",
+      "username": "admin",
+      "password": "R0uter@Admin",
+      "email": "",
+      "phone": "",
+      "weixin": "",
+      "isTop": false,
+      "note": "",
+      "website": "http://192.168.1.1",
+      "tags": [
+        "network",
+        "admin",
+        "home"
+      ]
+    }
+  ]
+}

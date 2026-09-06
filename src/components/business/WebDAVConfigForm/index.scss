@@ -1,0 +1,45 @@
+.webdav-config-form {
+  padding: 0;
+}
+
+.webdav-form-field {
+  margin-bottom: 24px;
+}
+
+.webdav-form-label {
+  font-size: 26px;
+  color: var(--text-primary, #333333);
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: 40px;
+}
+
+.webdav-form-input {
+  border: 1px solid var(--border, #eeeeee);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: 28px;
+  color: var(--text-primary, #333333);
+  background-color: var(--bg-subtle, #f9f9f9);
+}
+
+.webdav-form-hint {
+  font-size: 22px;
+  color: var(--text-hint, #999999);
+  margin-top: 6px;
+  line-height: 32px;
+}
+
+.webdav-form-placeholder {
+  color: var(--text-placeholder, #cccccc);
+}
+
+.webdav-form-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-top: 32px;
+}

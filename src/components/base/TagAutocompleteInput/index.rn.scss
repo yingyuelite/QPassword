@@ -1,0 +1,63 @@
+.tag-autocomplete {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tag-autocomplete-wrapper {
+  position: relative;
+}
+
+.tag-autocomplete-dropdown {
+  position: absolute;
+  bottom: 72px;
+  left: 0;
+  right: 0;
+  background-color: #eef6f4;
+  border: 1px solid #cfe3df;
+  border-radius: 8px;
+  max-height: 300px;
+  overflow: scroll;
+  z-index: 100;
+}
+
+.tag-autocomplete-dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-autocomplete-item {
+  padding: 16px 20px;
+  font-size: 26px;
+  color: #333;
+  border: 0 solid #d9e8e5;
+  border-bottom-width: 1px;
+
+  &:last-child {
+    border-bottom-width: none;
+  }
+}
+
+.tag-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-chip {
+  font-size: 24px;
+  color: #237166;
+  background-color: #e8f5e9;
+  padding: 4px 16px;
+  border-radius: 8px;
+}
+
+.tag-edit-input {
+  height: 72px;
+  font-size: 28px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 0 20px;
+}

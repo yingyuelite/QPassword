@@ -1,0 +1,9 @@
+@use './index.rn.scss';
+
+.password-item-gap {
+  padding-bottom: 22px;
+}
+
+.password-item-gap .password-item {
+  margin-bottom: 0;
+}

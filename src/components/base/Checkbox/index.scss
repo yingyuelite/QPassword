@@ -1,0 +1,31 @@
+.checkbox-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkbox {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--border-strong, #dddddd);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-checked {
+  background-color: var(--color-primary, #237166);
+  border-color: var(--color-primary, #237166);
+}
+
+.checkbox-tick {
+  font-size: 24px;
+  color: var(--text-on-primary, #ffffff);
+}
+
+.checkbox-label {
+  font-size: 28px;
+  color: var(--text-primary, #333333);
+}

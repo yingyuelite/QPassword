@@ -1,0 +1,112 @@
+.password-item {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.item-tag {
+  font-size: 22px;
+  color: #237166;
+  background-color: rgba(35, 113, 102, 0.1);
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.item-top {
+  font-size: 22px;
+  color: #e64340;
+  background-color: rgba(230, 67, 64, 0.1);
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.item-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 0;
+  border: 0 solid #f0f0f0;
+  border-bottom-width: 1px;
+}
+
+.field-label {
+  font-size: 22px;
+  color: #999;
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.field-value {
+  font-size: 26px;
+  color: #333;
+  flex: 1;
+}
+
+.field-password {
+  color: #237166;
+  letter-spacing: 4px;
+}
+
+.field-copy {
+  font-size: 22px;
+  color: #237166;
+  padding: 4px 12px;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.item-note {
+  display: flex;
+  flex-direction: row;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.note-text {
+  font-size: 26px;
+  color: #333;
+}
+
+.item-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.action-copy {
+  margin-left: auto;
+}
+
+.item-tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.tags-label {
+  font-size: 24px;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.tags-list {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}

@@ -1,0 +1,40 @@
+@use './index.rn.scss';
+
+.page-wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+
+.password-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 100vh;
+  background-color: var(--bg-page, #f5f5f5);
+}
+
+.password-list {
+  flex: 1;
+}
+
+/* 深浅色由 CSS 变量驱动，具体值由 app.scss 决定
+   （跟随系统的 media query 或手动主题 .theme-light/.theme-dark） */
+.page-wrapper {
+  background-color: var(--bg-page, #f5f5f5);
+}
+
+.page-title {
+  color: var(--text-primary, #333333);
+}
+
+.page-title--searching {
+  color: var(--color-primary, #237166);
+}
+
+.page-count {
+  color: var(--text-hint, #999999);
+}
+
+.empty-text {
+  color: var(--text-hint, #999999);
+}

@@ -1,0 +1,40 @@
+@use './index.rn.scss';
+
+.autocomplete-wrapper {
+  position: relative;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  bottom: 100%;
+  background-color: var(--bg-autocomplete, #eef6f4);
+  border: 1px solid var(--border, #eeeeee);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+}
+
+.autocomplete-strip {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  background-color: var(--bg-autocomplete, #eef6f4);
+  border-top: 1px solid var(--border, #eeeeee);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-strip-scroll {
+  max-height: 320px;
+}
+
+/* 深浅色由 CSS 变量驱动，具体值由 app.scss 决定
+   （跟随系统的 media query 或手动主题 .theme-light/.theme-dark） */
+.autocomplete-item {
+  color: var(--text-primary, #333333);
+  border-color: var(--border, #eeeeee);
+}
+
+.autocomplete-edit-input {
+  background-color: var(--bg-card, #ffffff);
+  border-color: var(--border, #eeeeee);
+}

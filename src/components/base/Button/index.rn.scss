@@ -1,0 +1,111 @@
+.btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.btn-bg-primary {
+  background-color: #237166;
+}
+
+.btn-bg-default {
+  background-color: #f5f5f5;
+}
+
+.btn-bg-danger {
+  background-color: #e64340;
+}
+
+.btn-bg-dashed {
+  background-color: #fff;
+  border: 1px dashed #ddd;
+}
+
+.btn-bg-text {
+  background-color: transparent;
+}
+
+.btn-size-small {
+  padding: 8px 16px;
+}
+
+.btn-size-middle {
+  padding: 16px 40px;
+  min-width: 120px;
+}
+
+.btn-size-large {
+  height: 72px;
+  padding: 0 32px;
+}
+
+.btn-block {
+  flex: 1;
+}
+
+.btn-disabled {
+  opacity: 0.5;
+}
+
+.btn-text {
+  font-size: 28px;
+}
+
+.btn-text-small {
+  font-size: 24px;
+}
+
+.btn-text-middle {
+  font-size: 28px;
+}
+
+.btn-text-large {
+  font-size: 28px;
+}
+
+.btn-icon {
+  font-size: 28px;
+  margin-right: 8px;
+}
+
+.btn-icon-small {
+  font-size: 24px;
+}
+
+.btn-icon-middle {
+  font-size: 28px;
+}
+
+.btn-icon-large {
+  font-size: 28px;
+}
+
+.btn-text-primary {
+  color: #fff;
+}
+
+.btn-icon-primary {
+}
+
+.btn-text-default {
+  color: #666;
+}
+
+.btn-icon-default {
+}
+
+.btn-text-danger {
+  color: #fff;
+}
+
+.btn-icon-danger {
+}
+
+.btn-text-dashed {
+  color: #237166;
+}
+
+.btn-icon-dashed {
+}

@@ -1,0 +1,6 @@
+{
+  "name": "@taro-hooks/core",
+  "version": "0.0.0-alias",
+  "description": "Alias package: re-exports @taro-hooks/plugin-react/dist/runtime for metro (RN) resolution. @taro-hooks/plugin-react only sets up the @taro-hooks/core alias for webpack/vite, not metro.",
+  "main": "index.js"
+}

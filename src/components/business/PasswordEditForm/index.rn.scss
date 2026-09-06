@@ -1,0 +1,111 @@
+.field-item {
+  margin-bottom: 16px;
+}
+
+.field-label {
+  font-size: 24px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.edit-input {
+  height: 72px;
+  font-size: 28px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 0 20px;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field-input {
+  padding-right: 88px;
+}
+
+.password-eye {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+}
+
+.password-eye-icon {
+  font-size: 32px;
+  color: #33333399;
+}
+
+.edit-textarea {
+  min-height: 120px;
+  font-size: 28px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  width: 100%;
+  padding: 16px 20px;
+}
+
+.icon-picker {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.icon-option {
+  width: 64px;
+  height: 64px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-option--active {
+  border: 2px solid #237166;
+  background-color: rgba(35, 113, 102, 0.1);
+}
+
+.icon-emoji {
+  font-size: 32px;
+  color: #000000;
+}
+
+.edit-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #f5f5f5;
+}
+
+.edit-body {
+  flex: 1;
+  min-height: 0;
+}
+
+.edit-form {
+  padding: 24px;
+}
+
+.edit-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.edit-footer {
+  flex-shrink: 0;
+  background-color: #fff;
+  padding: 16px 24px 28px;
+  border: 0 solid #eee;
+  border-top-width: 1px;
+}

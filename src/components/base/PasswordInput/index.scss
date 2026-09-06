@@ -1,0 +1,35 @@
+.password-input-field {
+  // RN 需要设置 flex: 1; 否则输入框宽度没有自动延伸
+  flex: 1;
+  position: relative;
+}
+
+/* 输入框自带盒样式（边框 / 背景 / 字号等），与业务表单输入框视觉一致，
+   无需外部再传入盒样式类，两端（小程序 / RN）表现稳定。
+   padding-right 预留眼睛图标的宽度空间，保证眼睛不覆盖输入文本、可正常点击。 */
+.password-input-field-input {
+  border: 1px solid var(--border, #eeeeee);
+  border-radius: 8px;
+  padding: 16px 20px;
+  padding-right: 88px;
+  font-size: 28px;
+  color: var(--text-primary, #333333);
+  background-color: var(--bg-subtle, #f9f9f9);
+}
+
+.password-input-eye {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+}
+
+.password-input-eye-icon {
+  font-size: 32px;
+  color: var(--text-hint, #33333399);
+}

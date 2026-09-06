@@ -1,0 +1,60 @@
+.page-wrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
+  padding: 0 24px;
+  background-color: #f5f5f5;
+}
+
+.password-page {
+  width: 100%;
+  flex: 1;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+}
+
+.page-header-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.page-title {
+  font-size: 40px;
+  font-weight: bold;
+  color: #333;
+}
+
+.page-title--searching {
+  color: #237166;
+}
+
+.page-count {
+  font-size: 26px;
+  color: #999;
+}
+
+.empty {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 0;
+}
+
+.empty-text {
+  font-size: 28px;
+  color: #999;
+}
+
+.password-list {
+  display: flex;
+  flex-direction: column;
+}

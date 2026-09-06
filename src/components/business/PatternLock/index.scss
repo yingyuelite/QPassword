@@ -1,0 +1,49 @@
+.pattern-lock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.pattern-grid {
+  position: relative;
+  overflow: visible;
+  touch-action: none;
+  background-color: var(--bg-pattern, #f4faf8);
+  border-radius: 24px;
+}
+
+.pattern-dot-wrap {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pattern-dot-halo {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.pattern-dot {
+  border-radius: 9999px;
+  background-color: var(--pattern-dot, #d9e6e2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pattern-dot-core {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: var(--text-on-primary, #ffffff);
+}
+
+.pattern-line,
+.pattern-line-follow {
+  position: absolute;
+  height: 3px;
+  border-radius: 2px;
+}

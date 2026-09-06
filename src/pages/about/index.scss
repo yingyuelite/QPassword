@@ -1,0 +1,74 @@
+@use './index.rn.scss';
+
+.about-page {
+  min-height: 100vh;
+}
+
+/* 深浅色由 CSS 变量驱动，具体值由 app.scss 决定
+   （跟随系统的 media query 或手动主题 .theme-light/.theme-dark） */
+.about-page {
+  background-color: var(--bg-page, #f5f5f5);
+}
+
+.about-logo {
+  background-color: var(--bg-card, #ffffff);
+}
+
+.about-name {
+  color: var(--text-primary, #333333);
+}
+
+.about-subname {
+  color: var(--text-hint, #999999);
+}
+
+.about-slogan {
+  color: var(--color-primary, #237166);
+}
+
+.about-version {
+  color: var(--text-hint, #999999);
+}
+
+.about-section {
+  background-color: var(--bg-card, #ffffff);
+}
+
+/* 微信/H5 端去掉内容高度上限，卡片随内容自然撑开（整页本身就是 scroll-view）。
+   rn.scss 中的 max-height 是供 RN flex 布局使用的，此处覆盖不影响 RN 端。
+   否则 max-height 会按 rpx 随屏宽缩放——真机小屏下 700rpx 换算更高紧，
+   使用说明内容一旦溢出，因 View 默认 overflow: visible，最后几行文字会
+   绘制到卡片底部 32rpx padding 之上，视觉上表现为"padding bottom 太小"。 */
+.about-section-body {
+  max-height: none;
+}
+
+.about-section-title {
+  color: var(--color-primary, #237166);
+}
+
+.about-section-text {
+  color: var(--text-secondary, #666666);
+}
+
+.about-dev-label {
+  color: var(--text-hint, #999999);
+}
+
+.about-dev-name {
+  color: var(--color-primary, #237166);
+}
+
+.about-dev-email {
+  color: var(--color-primary, #237166);
+  border-bottom-color: var(--color-primary, #237166);
+}
+
+.about-dev-link {
+  color: var(--color-primary, #237166);
+  border-color: var(--color-primary, #237166);
+}
+
+.about-dev-power {
+  color: var(--color-primary, #237166);
+}

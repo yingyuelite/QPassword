@@ -1,0 +1,56 @@
+@use './index.rn.scss';
+
+.field-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 深浅色由 CSS 变量驱动，具体值由 app.scss 决定
+   （跟随系统的 media query 或手动主题 .theme-light/.theme-dark） */
+.password-item {
+  background-color: var(--bg-card, #ffffff);
+}
+
+.item-tag {
+  color: var(--color-primary, #237166);
+  background-color: var(--bg-selected, #f0faf8);
+}
+
+.item-top {
+  color: var(--color-danger, #e64340);
+  background-color: var(--bg-danger, #fff0f0);
+}
+
+.field-row {
+  border-color: var(--border-divider, #f0f0f0);
+}
+
+.field-label {
+  color: var(--text-hint, #999999);
+}
+
+.field-value {
+  color: var(--text-primary, #333333);
+}
+
+.field-password {
+  color: var(--color-primary, #237166);
+}
+
+.field-copy {
+  color: var(--color-primary, #237166);
+}
+
+.item-note {
+  border-color: var(--border, #eeeeee);
+  background-color: var(--bg-subtle, #f9f9f9);
+}
+
+.note-text {
+  color: var(--text-primary, #333333);
+}
+
+.tags-label {
+  color: var(--text-hint, #999999);
+}

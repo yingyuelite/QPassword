@@ -1,0 +1,73 @@
+.modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  /* RN 端（Android）z-index 无效，视图层级由 elevation 决定。
+     下层 VirtualList/FlatList 列表项（如 PasswordItem）有 elevation，
+     若不提高遮罩 elevation，卡片会盖在遮罩之上导致点击透传。 */
+  elevation: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background-color: #fff;
+  border-radius: 16px;
+  display: flex;
+  max-width: 85%;
+  max-height: 80%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 彻底隐藏但保留节点（不用 display: none，避免干扰 opacity 过渡动画） */
+.modal-mask-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 28px 12px;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  flex: 1;
+  text-align: center;
+}
+
+.modal-close {
+  font-size: 40px;
+  color: #999;
+  padding: 0 0 0 16px;
+}
+
+.modal-body {
+  flex-grow: 0;
+  flex-shrink: 1;
+  min-height: 0;
+}
+
+.modal-content {
+  padding: 28px;
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 16px 28px 28px;
+  flex-shrink: 0;
+}

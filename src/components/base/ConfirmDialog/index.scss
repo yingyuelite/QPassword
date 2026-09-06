@@ -1,0 +1,19 @@
+.confirm-body {
+  padding: 20px 0;
+}
+
+.confirm-content {
+  font-size: 28px;
+  color: var(--text-primary, #333333);
+  line-height: 40px;
+}
+
+.confirm-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 20px;
+  padding-top: 20px;
+  border: 0 solid var(--border, #eeeeee);
+  border-top-width: 1px;
+}
