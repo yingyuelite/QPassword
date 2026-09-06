@@ -21,6 +21,7 @@
 .edit-input {
   background-color: var(--bg-card, #ffffff);
   border-color: var(--border, #eeeeee);
+  color: var(--text-primary, #333333);
 }
 
 .password-eye-icon {
@@ -30,6 +31,7 @@
 .edit-textarea {
   background-color: var(--bg-card, #ffffff);
   border-color: var(--border, #eeeeee);
+  color: var(--text-primary, #333333);
 }
 
 .icon-option {
