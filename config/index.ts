@@ -50,6 +50,12 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
           path.resolve(__dirname, '../node_modules/@scure'),
         ],
       },
+      // 不同页面组件引入 Button/PatternLock 等 .scss 的先后顺序不同，
+      // 且 .scss 之间无同名选择器覆盖，顺序不影响最终样式。
+      // 与 h5 端一致，忽略该警告以保持构建输出干净。
+      miniCssExtractPluginOption: {
+        ignoreOrder: true,
+      },
       postcss: {
         pxtransform: {
           enable: true,
