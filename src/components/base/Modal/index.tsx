@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, ScrollView } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import './index.scss'
@@ -32,7 +32,7 @@ const footerHeight = Math.round(120 * scale)
 const bodyMaxHeight = Math.max(dialogHeight - headerHeight - footerHeight, 0)
 
 /** 自增计数器，为每个 Modal 实例生成唯一 id */
-let modalIdSeq = 0
+// let modalIdSeq = 0
 
 const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer }) => {
   /**
@@ -46,14 +46,8 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
   const [show, setShow] = useState(visible)
   /** 退场动画结束后置为 true，彻底隐藏节点（不可交互、不可见），但保留在 DOM 中 */
   const [hidden, setHidden] = useState(!visible)
-  /** body 的阅读高度（clamp 到 bodyMaxHeight）。
-      微信端部分基础库的 scroll-view 会忽略 max-height / flex-shrink，
-      若不给定确定高度，内容会撑满并把 footer 盖住，因此测量后始终写入确定高度 */
-  const [bodyHeight, setBodyHeight] = useState<number | undefined>(undefined)
   const enterTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const exitTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  /** 唯一 id，用于测量内容高度 */
-  const bodyId = useMemo(() => `qp-modal-body-${++modalIdSeq}`, [])
 
   useEffect(() => {
     if (visible) {
@@ -83,30 +77,6 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
     }
   }, [])
 
-  useEffect(() => {
-    if (!visible) {
-      setBodyHeight(undefined)
-      return
-    }
-    // 等入场动画（scale 0.92 -> 1）结束再测量，避免 transform 缩放导致 boundingClientRect 偏小，
-    // 使内容高度接近 bodyMaxHeight 时错误地不进入截断分支，进而让 body 溢出盖住 footer
-    const timer = setTimeout(() => {
-      Taro.createSelectorQuery()
-        .select(`#${bodyId}`)
-        .boundingClientRect()
-        .exec((res) => {
-          const rect = res && res[0]
-          const height = rect ? (rect as unknown as { height?: number }).height : undefined
-          if (typeof height === 'number' && height > 0) {
-            // 无论内容高矮都写入确定高度（截断到 bodyMaxHeight），
-            // 避免依赖 max-height/flex-shrink 被部分基础库忽略而溢出盖住 footer
-            setBodyHeight(Math.min(height, bodyMaxHeight))
-          }
-        })
-    }, ANIM_DURATION + 50)
-    return () => clearTimeout(timer)
-  }, [visible, bodyId])
-
   if (!mounted) return null
 
   return (
@@ -115,7 +85,6 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
     >
       <View
         className={`modal ${show ? 'modal-show' : ''}`}
-        // style={{ height: dialogHeight, width: dialogWidth }}
       >
         {title ? (
           <View className="modal-header">
@@ -125,12 +94,11 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
         ) : null}
 
         <ScrollView
-          id={bodyId}
           className="modal-body"
           scrollY
           // @ts-ignore
           nestedScrollEnabled
-          style={{ width: dialogWidth, maxHeight: bodyMaxHeight, height: bodyHeight }}
+          style={{ width: dialogWidth, maxHeight: bodyMaxHeight }}
         >
           <View className="modal-content">
             {children}
