@@ -75,6 +75,19 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
         // 小程序端不使用 react-native，将其指向空模块以避免 Flow 语法报错
         chain.resolve.alias.set('react-native', path.resolve(__dirname, 'empty-module.js'))
+        // 将 wasm/pbkdf2.wasm 复制到小程序代码包（输出根目录）的 wasm/ 下，
+        // 供 WXWebAssembly.instantiate 按代码包路径加载（见 src/utils/pbkdf2.ts）。
+        // copy 配置的 to 会被 Taro 解析为相对于项目根目录的绝对路径，无法落到随 mode 变化的输出根目录，
+        // 因此这里用 webpackChain 直接加 CopyPlugin，to 用相对路径会以编译器的 output.path（输出根）为基准。
+        // filter 确保只复制 .wasm 产物，wasm/src 源码、测试、文档不会进入代码包。
+        const CopyWebpackPlugin = require('copy-webpack-plugin')
+        chain.plugin('copy-qp-wasm').use(CopyWebpackPlugin, [{
+          patterns: [{
+            from: path.resolve(__dirname, '../wasm'),
+            to: 'wasm',
+            filter: (resourcePath: string) => resourcePath.endsWith('pbkdf2.wasm'),
+          }],
+        }])
       }
     },
     h5: {

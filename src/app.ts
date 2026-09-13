@@ -38,6 +38,9 @@ polyfillTextEncoderDecoder()
 // 根治"极快输入丢字、按住删除时被删的字回弹"的异步回写竞态。
 if (process.env.TARO_ENV === 'weapp') {
   require('./utils/patchFormElement')
+  // 预热加载 PBKDF2 的 wasm 模块。iOS 小程序 JSC 引擎上纯 JS 的 PBKDF2 很慢，
+  // 提前实例化 wasm，确保用户首次解锁时就命中 WASM 快路径（失败时 pbkdf2.ts 内部会自动降级纯 JS）。
+  require('./utils/pbkdf2').preloadPbkdf2Wasm()
 }
 
 if (process.env.TARO_ENV === 'rn') {
