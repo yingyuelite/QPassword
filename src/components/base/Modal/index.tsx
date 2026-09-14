@@ -82,6 +82,8 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
   return (
     <View
       className={`modal-mask ${show ? 'modal-mask-show' : ''} ${hidden ? 'modal-mask-hidden' : ''}`}
+      // @ts-ignore – catchtouchmove 是小程序原生属性，Taro 类型未覆盖
+      catchtouchmove={() => {}}
     >
       <View
         className={`modal ${show ? 'modal-show' : ''}`}

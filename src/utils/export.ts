@@ -46,5 +46,5 @@ export function generateExportFileName(): string {
   const day = String(now.getDate()).padStart(2, '0')
   const hours = String(now.getHours()).padStart(2, '0')
   const minutes = String(now.getMinutes()).padStart(2, '0')
-  return `QPassword_passwords_${year}${month}${day}${hours}${minutes}.qp2.json`
+  return `QPassword_passwords_${year}${month}${day}${hours}${minutes}.qp2`
 }

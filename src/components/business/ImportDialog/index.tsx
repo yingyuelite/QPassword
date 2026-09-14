@@ -33,7 +33,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
     Taro.chooseMessageFile({
       type: 'file',
       count: 1,
-      extension: ['qp2.json'],
+      extension: ['qp2'], // 需要特别注意的是：iOS端的微信小程序不支持双扩展名，如 qp2.json
       success: (res) => {
         const file = res.tempFiles[0]
         setFileName(file.name)
@@ -61,7 +61,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
         {/* 文件选择 */}
         <View className="import-file-section">
           <Button type="default" textColor="#237166" onClick={handleChooseFile}>
-            {fileName ? '重新选择文件' : '选择文件 (.qp2.json)'}
+            {fileName ? '重新选择文件' : '选择文件 (.qp2)'}
           </Button>
           {fileName && (
             <Text className="import-file-name">已选择：{fileName}</Text>

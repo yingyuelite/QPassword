@@ -50,7 +50,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
       }
 
       const file = result.assets[0]
-      const name = file.name || 'unknown.qp2.json'
+      const name = file.name || 'unknown.qp2'
 
       setReading(true)
       setFileName(name)
@@ -77,7 +77,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
       <View className="import-content">
         <View className="import-file-section">
           <Button type="default" textColor="#237166" onClick={handleChooseFile} disabled={reading}>
-            {reading ? '读取中...' : (fileName ? '重新选择文件' : '选择文件 (.qp2.json)')}
+            {reading ? '读取中...' : (fileName ? '重新选择文件' : '选择文件 (.qp2)')}
           </Button>
           {fileName && (
             <Text className="import-file-name">已选择：{fileName}</Text>

@@ -7,7 +7,7 @@ import { loadPasscode } from './storage'
 import { getAuthHeader } from './auth'
 import { encodePath } from './url'
 
-const BACKUP_FILE = 'QPassword_backup.qp2.json'
+const BACKUP_FILE = 'QPassword_backup.qp2'
 const META_FILE = 'QPassword_meta.json'
 
 /** 发送 WebDAV 请求 */
