@@ -77,6 +77,7 @@ const PatternLock: React.FC<PatternLockProps> = ({
   const [containerWidth, setContainerWidth] = useState<number | null>(null)
 
   const offsetRef = useRef({ x: 0, y: 0 })
+  const scaleRef = useRef(1)
   const offsetMeasuredRef = useRef(false)
   const touchingRef = useRef(false)
   // 将 cellSize / dotSize 保存到 ref，使 PanResponder 等长期存在的闭包
@@ -92,6 +93,10 @@ const PatternLock: React.FC<PatternLockProps> = ({
   const effectiveSize = containerWidth ?? size
   const cellSize = effectiveSize / GRID
   const wrapSize = dotSize + 16
+  // 当前生效的图案边长（布局像素），供 measure 计算换算比例时读取。
+  // 用 ref 保存，避免 measure 因依赖 effectiveSize 状态而频繁重建闭包。
+  const effectiveSizeRef = useRef(effectiveSize)
+  effectiveSizeRef.current = effectiveSize
 
   // 同步最新的 cellSize / dotSize 到 ref，使 touch handler 闭包始终读取最新值
   useEffect(() => {
@@ -99,30 +104,83 @@ const PatternLock: React.FC<PatternLockProps> = ({
     dotSizeRef.current = dotSize
   }, [cellSize, dotSize])
 
-  // Query the grid's viewport position. On mini programs (WeChat) this is the
-  // only reliable way to translate page-level touch coords into element coords,
-  // and it must run AFTER the node is laid out. If it runs too early (e.g. on
-  // a page re-entry) the rect comes back null/zero-width, so callers retry.
+  // Query the grid and container positions. On mini-programs this is the only
+  // reliable way to translate page-level touch coords into element coords.
+  //
+  // Scale is derived from the grid itself (boundingClientRect width / CSS width),
+  // which is stable across all devices and screen sizes without depending on
+  // windowWidth (which may or may not reflect the display space on some devices).
+  //
+  // 关键：mount 时首次 measure 在默认 effectiveSize(280) 下运行，得到的
+  // gridRect.left 包含了图案在父容器中的居中偏移；随后 setContainerWidth
+  // 触发图案缩放到填满父容器，此时 grid 的 left 会变（居中偏移归零）。
+  // 因此必须在 containerWidth 变化后重新 measure，更新 offsetRef，
+  // 否则在 iPad 等大屏上会出现约一列的固定偏移（手指滑 N 列，N-1 列响应）。
   const measure = useCallback((onDone?: () => void) => {
     if (process.env.TARO_ENV === 'rn') {
       offsetMeasuredRef.current = true
       if (onDone) onDone()
       return
     }
+    let lockRect: any = null
+    let gridRect: any = null
+    const finish = () => {
+      if (lockRect === null || gridRect === null) return
+      const okLock = lockRect && !Array.isArray(lockRect) && lockRect.width > 0
+      const okGrid = gridRect && !Array.isArray(gridRect) && gridRect.width > 0
+
+      // 以图案自身的宽为基准计算缩放比：s = 实测宽度 / CSS 像素宽度。
+      // 当 resizable:true（所有坐标同空间）时 s ≈ 1；当 iPad 兼容模式
+      // （boundingClientRect 被放大）时 s > 1。两种情况均正确处理。
+      let s = 1
+      if (okGrid && effectiveSizeRef.current > 0) {
+        s = gridRect.width / effectiveSizeRef.current
+      }
+      if (!Number.isFinite(s) || s <= 0) s = 1
+      scaleRef.current = s
+
+      if (okLock) {
+        setContainerWidth(lockRect.width / s)
+      }
+      if (okGrid) {
+        // 保留原始 boundingClientRect 坐标（不除以 s），在 getTouchCoords
+        // 中统一做 (touch - offset) / s，避免在 s≠1 时混合两个坐标空间。
+        offsetRef.current = { x: gridRect.left, y: gridRect.top }
+        offsetMeasuredRef.current = true
+      }
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[PatternLock] measure', {
+          scale: s,
+          lockWidth: lockRect?.width,
+          gridWidth: gridRect?.width,
+          gridLeft: gridRect?.left,
+          gridTop: gridRect?.top,
+          effSize: effectiveSizeRef.current,
+          offset: offsetRef.current,
+          cw: okLock ? lockRect.width / s : null,
+        })
+      }
+      if (onDone) onDone()
+    }
     Taro.createSelectorQuery()
+      .select('.pattern-lock')
+      .boundingClientRect((rect: any) => {
+        lockRect = rect
+        finish()
+      })
       .select('.pattern-grid')
       .boundingClientRect((rect: any) => {
-        if (rect && !Array.isArray(rect) && rect.width > 0 && rect.height > 0) {
-          offsetRef.current = { x: rect.left, y: rect.top }
-          offsetMeasuredRef.current = true
-        }
-        if (onDone) onDone()
+        gridRect = rect
+        finish()
       })
       .exec()
   }, [])
 
-  // Measure on mount and retry until it succeeds: on page re-entry the layout
-  // may not be ready on the first attempt, leaving the offset unmeasured.
+  // Measure on mount and retry several times: the first measure runs with
+  // the default effectiveSize (280) and sets containerWidth, which triggers a
+  // grid resize that shifts the grid's left edge. Subsequent retries re-measure
+  // at the final size, correcting offsetRef. Up to 6 retries handles both
+  // initial layout delays and the post-resize re-measurement.
   useEffect(() => {
     if (process.env.TARO_ENV === 'rn') {
       offsetMeasuredRef.current = true
@@ -134,7 +192,7 @@ const PatternLock: React.FC<PatternLockProps> = ({
       if (cancelled) return
       measure(() => {
         if (cancelled) return
-        if (!offsetMeasuredRef.current && retries < 6) {
+        if (retries < 6) {
           retries++
           Taro.nextTick(tryMeasure)
         }
@@ -146,55 +204,18 @@ const PatternLock: React.FC<PatternLockProps> = ({
     }
   }, [measure])
 
-  // 测量 .pattern-lock 容器的实际宽度，以此作为图案尺寸，
-  // 这样无论设备屏幕、父容器百分比如何变化，图案都能完整包在卡片内。
-  useEffect(() => {
-    if (process.env.TARO_ENV === 'rn') {
-      // RN 端使用独立的 index.rn.tsx，通过 onLayout 获取宽度，无需此处测量
-      return
-    }
-    let cancelled = false
-    let retries = 0
-    const tryMeasure = () => {
-      if (cancelled) return
-      Taro.createSelectorQuery()
-        .select('.pattern-lock')
-        .boundingClientRect((rect: any) => {
-          if (rect && !Array.isArray(rect) && rect.width > 0) {
-            setContainerWidth(rect.width)
-          }
-          if (!containerWidth && retries < 6) {
-            retries++
-            Taro.nextTick(tryMeasure)
-          }
-        })
-        .exec()
-    }
-    Taro.nextTick(tryMeasure)
-    return () => {
-      cancelled = true
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // 窗口尺寸变化（如横竖屏切换）后重新测量容器宽度
+  // 窗口尺寸变化（如横竖屏切换）后重新测量容器宽度与 grid 偏移
+  // （缩放比基于图案自身宽度计算，详见 measure 注释）
   useEffect(() => {
     const handler = () => {
       if (process.env.TARO_ENV === 'rn') return
-      Taro.createSelectorQuery()
-        .select('.pattern-lock')
-        .boundingClientRect((rect: any) => {
-          if (rect && !Array.isArray(rect) && rect.width > 0) {
-            setContainerWidth(rect.width)
-          }
-        })
-        .exec()
+      measure()
     }
     Taro.onWindowResize(handler)
     return () => {
       Taro.offWindowResize(handler)
     }
-  }, [])
+  }, [measure])
 
   const getTouchCoords = useCallback((e: any, touch: any): Point => {
     if (touch.locationX !== undefined) {
@@ -209,12 +230,13 @@ const PatternLock: React.FC<PatternLockProps> = ({
         return { x: touch.clientX - rect.left, y: touch.clientY - rect.top }
       }
     }
-    // Mini programs: viewport-relative touches minus the measured offset
+    // Mini programs: subtract the measured grid position (in boundingClientRect
+    // space), then divide by scale to convert back to CSS-layout pixel space.
     const cx = typeof touch.clientX === 'number' ? touch.clientX : touch.pageX
     const cy = typeof touch.clientY === 'number' ? touch.clientY : touch.pageY
     return {
-      x: cx - offsetRef.current.x,
-      y: cy - offsetRef.current.y,
+      x: (cx - offsetRef.current.x) / scaleRef.current,
+      y: (cy - offsetRef.current.y) / scaleRef.current,
     }
   }, [])
 

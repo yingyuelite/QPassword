@@ -8,6 +8,7 @@ export default defineAppConfig({
   ],
   // 开启小程序暗色模式，使 WXSS 中的 @media (prefers-color-scheme: dark) 生效
   darkmode: true,
+  resizable: true,
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#fff",
