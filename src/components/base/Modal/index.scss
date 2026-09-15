@@ -21,20 +21,6 @@
   transform: scale(1);
 }
 
-/* 深浅色由 CSS 变量驱动，具体值由 app.scss 决定
-   （跟随系统的 media query 或手动主题 .theme-light/.theme-dark） */
-.modal {
-  background-color: var(--bg-card, #ffffff);
-}
-
-.modal-title {
-  color: var(--text-primary, #333333);
-}
-
-.modal-close {
-  color: var(--text-hint, #999999);
-}
-
 /* 微信端兜底：即使 JS 测量尚未完成/失败（body 暂无确定高度），
    也让 scroll-view 的溢出内容只裁剪在自己的盒内，不给 footer 留覆盖机会 */
 .modal-body {

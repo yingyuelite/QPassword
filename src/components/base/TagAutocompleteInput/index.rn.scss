@@ -13,8 +13,8 @@
   bottom: 72px;
   left: 0;
   right: 0;
-  background-color: #eef6f4;
-  border: 1px solid #cfe3df;
+  background-color: var(--bg-autocomplete, #eef6f4);
+  border: 1px solid var(--border, #eeeeee);
   border-radius: 8px;
   max-height: 300px;
   overflow: scroll;
@@ -29,8 +29,8 @@
 .tag-autocomplete-item {
   padding: 16px 20px;
   font-size: 26px;
-  color: #333;
-  border: 0 solid #d9e8e5;
+  color: var(--text-primary, #333333);
+  border: 0 solid var(--border, #eeeeee);
   border-bottom-width: 1px;
 
   &:last-child {
@@ -47,8 +47,8 @@
 
 .tag-chip {
   font-size: 24px;
-  color: #237166;
-  background-color: #e8f5e9;
+  color: var(--color-primary, #237166);
+  background-color: var(--bg-tag, #e8f5e9);
   padding: 4px 16px;
   border-radius: 8px;
 }
@@ -56,8 +56,9 @@
 .tag-edit-input {
   height: 72px;
   font-size: 28px;
-  background-color: #fff;
-  border: 1px solid #eee;
+  color: var(--text-primary, #333333);
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid var(--border, #eeeeee);
   border-radius: 8px;
   padding: 0 20px;
 }

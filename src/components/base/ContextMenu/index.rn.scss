@@ -11,7 +11,7 @@
   position: absolute;
   top: 100px;
   right: 24px;
-  background-color: #fff;
+  background-color: var(--bg-card, #ffffff);
   border-radius: 12px;
   overflow: hidden;
   min-width: 200px;
@@ -23,7 +23,7 @@
   flex-direction: row;
   align-items: center;
   padding: 24px 32px;
-  border: 0 solid #f0f0f0;
+  border: 0 solid var(--border-divider, #f0f0f0);
   border-bottom-width: 1px;
 
   &:last-child {
@@ -40,10 +40,16 @@
 .context-menu-icon {
   font-size: 32px;
   margin-right: 16px;
-  color: #000000;
+  color: var(--text-primary, #333333);
 }
 
 .context-menu-label {
   font-size: 28px;
-  color: #333;
+  color: var(--text-primary, #333333);
+}
+
+.context-menu-item-danger {
+  .context-menu-label {
+    color: var(--color-danger, #e64340);
+  }
 }

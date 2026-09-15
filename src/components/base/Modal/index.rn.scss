@@ -16,7 +16,7 @@
 }
 
 .modal {
-  background-color: #fff;
+  background-color: var(--bg-card, #ffffff);
   border-radius: 16px;
   display: flex;
   max-width: 85%;
@@ -43,14 +43,14 @@
 .modal-title {
   font-size: 32px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-primary, #333333);
   flex: 1;
   text-align: center;
 }
 
 .modal-close {
   font-size: 40px;
-  color: #999;
+  color: var(--text-hint, #999999);
   padding: 0 0 0 16px;
 }
 

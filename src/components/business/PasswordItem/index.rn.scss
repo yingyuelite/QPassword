@@ -1,5 +1,5 @@
 .password-item {
-  background-color: #fff;
+  background-color: var(--bg-card, #ffffff);
   border-radius: 16px;
   padding: 28px 24px;
   margin-bottom: 22px;
@@ -8,16 +8,16 @@
 
 .item-tag {
   font-size: 22px;
-  color: #237166;
-  background-color: rgba(35, 113, 102, 0.1);
+  color: var(--color-primary, #237166);
+  background-color: var(--bg-selected, #f0faf8);
   padding: 4px 12px;
   border-radius: 6px;
 }
 
 .item-top {
   font-size: 22px;
-  color: #e64340;
-  background-color: rgba(230, 67, 64, 0.1);
+  color: var(--color-danger, #e64340);
+  background-color: var(--bg-danger, #fff0f0);
   padding: 4px 12px;
   border-radius: 6px;
 }
@@ -32,31 +32,31 @@
   flex-direction: row;
   align-items: center;
   padding: 10px 0;
-  border: 0 solid #f0f0f0;
+  border: 0 solid var(--border-divider, #f0f0f0);
   border-bottom-width: 1px;
 }
 
 .field-label {
   font-size: 22px;
-  color: #999;
+  color: var(--text-hint, #999999);
   width: 110px;
   flex-shrink: 0;
 }
 
 .field-value {
   font-size: 26px;
-  color: #333;
+  color: var(--text-primary, #333333);
   flex: 1;
 }
 
 .field-password {
-  color: #237166;
+  color: var(--color-primary, #237166);
   letter-spacing: 4px;
 }
 
 .field-copy {
   font-size: 22px;
-  color: #237166;
+  color: var(--color-primary, #237166);
   padding: 4px 12px;
   margin-left: 12px;
   flex-shrink: 0;
@@ -67,14 +67,14 @@
   flex-direction: row;
   margin-top: 12px;
   padding: 12px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border, #eeeeee);
   border-radius: 8px;
-  background-color: #fafafa;
+  background-color: var(--bg-subtle, #f9f9f9);
 }
 
 .note-text {
   font-size: 26px;
-  color: #333;
+  color: var(--text-primary, #333333);
 }
 
 .item-actions {
@@ -99,7 +99,7 @@
 
 .tags-label {
   font-size: 24px;
-  color: #999;
+  color: var(--text-hint, #999999);
   flex-shrink: 0;
 }
 

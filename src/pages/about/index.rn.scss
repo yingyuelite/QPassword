@@ -4,7 +4,7 @@
   flex: 1;
   width: unset;
   padding: 0 32px;
-  background-color: #f5f5f5;
+  background-color: var(--bg-page, #f5f5f5);
 }
 
 .about-header {
@@ -22,7 +22,7 @@
   width: 128px;
   height: 128px;
   border-radius: 32px;
-  background-color: #ffffff;
+  background-color: var(--bg-card, #ffffff);
 }
 
 .about-logo-img {
@@ -34,20 +34,20 @@
   margin-top: 24px;
   font-size: 44px;
   font-weight: bold;
-  color: #333333;
+  color: var(--text-primary, #333333);
 }
 
 .about-subname {
   margin-top: 8px;
   font-size: 28px;
-  color: #999999;
+  color: var(--text-hint, #999999);
 }
 
 .about-slogan {
   margin-top: 26px;
   margin-bottom: 26px;
   font-size: 24px;
-  color: #237166;
+  color: var(--color-primary, #237166);
   letter-spacing: 4px;
 }
 
@@ -58,20 +58,20 @@
 .about-version {
   margin-top: 8px;
   font-size: 26px;
-  color: #999999;
+  color: var(--text-hint, #999999);
 }
 
 .about-section {
   margin-top: 24px;
   padding: 32px;
   border-radius: 16px;
-  background-color: #ffffff;
+  background-color: var(--bg-card, #ffffff);
 }
 
 .about-section-title {
   font-size: 30px;
   font-weight: bold;
-  color: #237166;
+  color: var(--color-primary, #237166);
 }
 
 .about-section-body {
@@ -88,44 +88,44 @@
 
 .about-section-text {
   font-size: 28px;
-  color: #666666;
+  color: var(--text-secondary, #666666);
   line-height: 40px;
 }
 
 .about-dev-label {
   font-size: 26px;
-  color: #999999;
+  color: var(--text-hint, #999999);
   margin-bottom: 8px;
 }
 
 .about-dev-name {
   font-size: 24px;
   margin-left: 16px;
-  color: #237166;
+  color: var(--color-primary, #237166);
 }
 
 .about-dev-email {
   font-size: 24px;
   margin-left: 16px;
-  color: #237166;
+  color: var(--color-primary, #237166);
   /* RN 不支持 border-bottom 简写，按 RG 约定展开写 */
-  border: 0 solid #237166;
+  border: 0 solid var(--color-primary, #237166);
   border-bottom-width: 1px;
 }
 
 .about-dev-link {
   font-size: 24px;
   margin-left: 16px;
-  color: #237166;
+  color: var(--color-primary, #237166);
   /* RN 不支持 border-bottom 简写，按 RG 约定展开写 */
-  border: 0 solid #237166;
+  border: 0 solid var(--color-primary, #237166);
   border-bottom-width: 1px;
 }
 
 .about-dev-power {
   font-size: 24px;
   margin-left: 16px;
-  color: #237166;
+  color: var(--color-primary, #237166);
 }
 
 .about-footer {

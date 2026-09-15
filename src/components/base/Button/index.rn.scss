@@ -7,20 +7,20 @@
 }
 
 .btn-bg-primary {
-  background-color: #237166;
+  background-color: var(--color-primary, #237166);
 }
 
 .btn-bg-default {
-  background-color: #f5f5f5;
+  background-color: var(--bg-hover, #f5f5f5);
 }
 
 .btn-bg-danger {
-  background-color: #e64340;
+  background-color: var(--color-danger, #e64340);
 }
 
 .btn-bg-dashed {
-  background-color: #fff;
-  border: 1px dashed #ddd;
+  background-color: var(--bg-card, #ffffff);
+  border: 1px dashed var(--border-strong, #dddddd);
 }
 
 .btn-bg-text {
@@ -90,7 +90,7 @@
 }
 
 .btn-text-default {
-  color: #666;
+  color: var(--text-secondary, #666666);
 }
 
 .btn-icon-default {
@@ -104,7 +104,7 @@
 }
 
 .btn-text-dashed {
-  color: #237166;
+  color: var(--color-primary, #237166);
 }
 
 .btn-icon-dashed {

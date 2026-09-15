@@ -11,17 +11,17 @@
   justify-content: space-between;
   padding: 24px 0;
   /* RN 不支持 border-bottom 简写，按 RG 约定展开写 */
-  border: 0 solid #eeeeee;
+  border: 0 solid var(--border, #eeeeee);
   border-bottom-width: 1px;
 }
 
 .radio-label {
   font-size: 30px;
-  color: #333333;
+  color: var(--text-primary, #333333);
 }
 
 .radio-label--active {
-  color: #237166;
+  color: var(--color-primary, #237166);
 }
 
 .radio-badge {
@@ -31,17 +31,17 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  border: 2px solid #cccccc;
+  border: 2px solid var(--text-placeholder, #cccccc);
   border-radius: 18px;
 }
 
 .radio-badge--active {
-  border-color: #237166;
+  border-color: var(--color-primary, #237166);
 }
 
 .radio-dot {
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  background-color: #237166;
+  background-color: var(--color-primary, #237166);
 }

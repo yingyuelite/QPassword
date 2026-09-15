@@ -3,12 +3,13 @@
   flex: 1;
   position: relative;
   padding: 0 24px;
-  background-color: #f5f5f5;
+  background-color: var(--bg-page, #f5f5f5);
 }
 
 .password-page {
   width: 100%;
   flex: 1;
+  background-color: var(--bg-page, #f5f5f5);
 }
 
 .page-header {
@@ -29,16 +30,16 @@
 .page-title {
   font-size: 40px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-primary, #333333);
 }
 
 .page-title--searching {
-  color: #237166;
+  color: var(--color-primary, #237166);
 }
 
 .page-count {
   font-size: 26px;
-  color: #999;
+  color: var(--text-hint, #999999);
 }
 
 .empty {
@@ -51,7 +52,7 @@
 
 .empty-text {
   font-size: 28px;
-  color: #999;
+  color: var(--text-hint, #999999);
 }
 
 .password-list {
