@@ -11,9 +11,16 @@
 .search-input {
   height: 72px;
   font-size: 28px;
-  border: 1px solid var(--border, #eeeeee);
+  border: 1px solid var(--border-strong, #dddddd);
   border-radius: 8px;
   padding: 0 20px;
+  margin-top: 12px;
+  color: var(--text-primary, #333333);
+  background-color: var(--bg-subtle, #f9f9f9);
+}
+
+.search-input-placeholder {
+  color: var(--text-placeholder, #cccccc);
 }
 
 .search-tags {

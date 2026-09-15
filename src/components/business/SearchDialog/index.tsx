@@ -84,6 +84,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ visible, passwords, default
         <Text className="search-hint">输入关键词搜索标题、用户名、邮箱、手机号、微信、登录方式、备注、网址、标签</Text>
         <SafeInput
           className="search-input"
+          placeholderClass="search-input-placeholder"
           placeholder="输入关键词"
           defaultValue={keyword}
           onInput={(v) => { keywordRef.current = v }}
