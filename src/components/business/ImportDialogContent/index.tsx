@@ -2,8 +2,6 @@ import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { View, Text } from '@tarojs/components'
 import { showLoading, hideLoading } from '@/utils/loading'
 import { showToast } from '@/utils/toast'
-import PatternLock from '@/components/business/PatternLock'
-import PasswordInput from '@/components/base/PasswordInput'
 import Button from '@/components/base/Button'
 import { Password } from '@/types/password'
 import { Passcode, PasscodeType } from '@/types/passcode'
@@ -22,6 +20,10 @@ interface ImportDialogContentProps {
   onImport: (passwords: Password[]) => Promise<{ added: number; updated: number }>
   /** 完成回调（导入成功后） */
   onDone: () => void
+  /** 需要输入导出口令时，通知页面级组件打开独立的全屏口令弹窗 */
+  onPasscodeOpen?: (type: PasscodeType, submit: (value: string) => Promise<Password[] | null>) => void
+  /** 口令弹窗关闭 / 内容复位 */
+  onPasscodeClose?: () => void
 }
 
 /** 口令验证状态 */
@@ -31,21 +33,43 @@ type PasscodeStep =
   | { status: 'key_match'; type: PasscodeType; backupPasscode: Passcode }
   | { status: 'need_input'; type: PasscodeType; backupPasscode: Passcode }
 
-const ImportDialogContent: React.FC<ImportDialogContentProps> = ({ content, onImport, onDone }) => {
+const ImportDialogContent: React.FC<ImportDialogContentProps> = ({ content, onImport, onDone, onPasscodeOpen, onPasscodeClose }) => {
   const [passcodeStep, setPasscodeStep] = useState<PasscodeStep>({ status: 'idle' })
-  // 导出时的口令输入框最新值（非受控，逐键写入 ref，解析时读取）
-  const exportPasscodeRef = useRef('')
   const [importing, setImporting] = useState(false)
   const [preview, setPreview] = useState<Password[] | null>(null)
   const [error, setError] = useState('')
+  // 口令校验步骤的最新值：页面级口令弹窗的 submit 闭包在调用时读取它，避免拿到旧状态（如 status 还是 idle）
+  const passcodeStepRef = useRef<PasscodeStep>(passcodeStep)
+  passcodeStepRef.current = passcodeStep
+  // 口令提交函数的最新引用；声明在最前，供下方 effect 内的 onPasscodeOpen 使用
+  const submitRef = useRef<(value: string) => Promise<Password[] | null>>(async () => null)
+  // 回调走 ref：父级若以行内函数传入，每次渲染都是新引用，若放进 effect deps 会导致
+  // effect 反复执行 → 先 onPasscodeClose 又 onPasscodeOpen，口令弹窗闪烁不停。
+  const onPasscodeOpenRef = useRef(onPasscodeOpen)
+  onPasscodeOpenRef.current = onPasscodeOpen
+  const onPasscodeCloseRef = useRef(onPasscodeClose)
+  onPasscodeCloseRef.current = onPasscodeClose
 
-  // 初始化：分析文件是否需要口令
+  // 初始化 / 文件变更：先复位上一份文件的状态，再分析新文件是否需要口令
+  // 注意：effect 仅依赖 content，避免父级回调引用变化引发的反复开合。
   useEffect(() => {
-    if (!content) return
+    setPreview(null)
+    setError('')
+    onPasscodeCloseRef.current?.()
+    if (!content) {
+      setPasscodeStep({ status: 'idle' })
+      return
+    }
+    setPasscodeStep({ status: 'idle' })
     try {
       const header = readImportFile(content)
       checkImportNeedPasscode(header.passcode).then((result) => {
-        setPasscodeStep(result ?? { status: 'none' })
+        const next = result ?? { status: 'none' }
+        setPasscodeStep(next)
+        // 需要口令时，通知页面级组件打开独立的全屏口令弹窗（不缩放、不滚动，保证图案完整显示）
+        if (next.status === 'need_input') {
+          onPasscodeOpenRef.current?.(next.type, submitRef.current)
+        }
       })
     } catch {
       setError('文件格式不正确')
@@ -80,44 +104,37 @@ const ImportDialogContent: React.FC<ImportDialogContentProps> = ({ content, onIm
       } else if (passcodeStep.status === 'key_match') {
         const result = await withLoading(() => parseImportFile(content, { useCurrentKey: true }), '解析中')
         setPreview(result)
-      } else if (passcodeStep.status === 'need_input') {
-        if (!exportPasscodeRef.current) {
-          setError('请输入导出时的口令')
-          return
+      }
+      // need_input 场景由口令弹窗（handlePasscodeSubmit）处理
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '解析失败')
+    }
+  }, [content, passcodeStep, withLoading])
+
+  /** 口令弹窗提交：验证导出口令并解析；成功返回密码列表（弹窗由页面级组件关闭），失败返回 null（弹窗显示错误） */
+  const handlePasscodeSubmit = useCallback(async (value: string): Promise<Password[] | null> => {
+    const step = passcodeStepRef.current
+    if (step.status !== 'need_input' || !content) return null
+    setError('')
+    try {
+      const result = await withLoading(async () => {
+        if (!verifyImportPasscode(value, step.backupPasscode)) {
+          return null
         }
-        const result = await withLoading(() => parseImportFile(content, { useInputKey: exportPasscodeRef.current }), '解析中')
+        return parseImportFile(content, { useInputKey: value })
+      }, '校验中')
+      if (result) {
         setPreview(result)
       }
+      return result
     } catch (err) {
       setError(err instanceof Error ? err.message : '解析失败')
+      return null
     }
-  }, [content, passcodeStep, withLoading])
+  }, [content, withLoading])
 
-  const handlePatternComplete = useCallback(async (pattern: number[]) => {
-    if (passcodeStep.status !== 'need_input') return
-
-    const patternStr = pattern.join(',')
-    let pass = false
-    let result: Password[] | null = null
-    try {
-      await withLoading(async () => {
-        pass = verifyImportPasscode(patternStr, passcodeStep.backupPasscode)
-        if (pass) {
-          result = await parseImportFile(content, { useInputKey: patternStr })
-        }
-      }, '校验中')
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '解析失败')
-      return
-    }
-    if (!pass) {
-      setError('图案错误，请重试')
-      return
-    }
-
-    setError('')
-    setPreview(result)
-  }, [content, passcodeStep, withLoading])
+  // 始终让页面级弹窗的 submit 指向最新的处理函数
+  submitRef.current = handlePasscodeSubmit
 
   const handleImport = useCallback(async () => {
     if (!preview || importing) return
@@ -143,27 +160,6 @@ const ImportDialogContent: React.FC<ImportDialogContentProps> = ({ content, onIm
 
   return (
     <View className="import-content-main">
-      {/* 密码输入：图案口令 */}
-      {passcodeStep.status === 'need_input' && passcodeStep.type === 'pattern' && !preview && (
-        <View className="import-password-section">
-          <Text className="import-password-label">请绘制导出时的图案口令</Text>
-          <PatternLock onChange={handlePatternComplete} />
-        </View>
-      )}
-
-      {/* 密码输入：文字口令 */}
-      {passcodeStep.status === 'need_input' && passcodeStep.type === 'text' && !preview && (
-        <View className="import-password-section">
-          <Text className="import-password-label">请输入导出时的口令</Text>
-          <PasswordInput
-            placeholder="请输入口令"
-            defaultValue=""
-            onInput={(v) => { exportPasscodeRef.current = v }}
-            onConfirm={handlePreview}
-          />
-        </View>
-      )}
-
       {/* 明文导入提示 */}
       {passcodeStep.status === 'none' && content && !preview && (
         <View className="import-info">
@@ -175,6 +171,13 @@ const ImportDialogContent: React.FC<ImportDialogContentProps> = ({ content, onIm
       {passcodeStep.status === 'key_match' && content && !preview && (
         <View className="import-info">
           <Text className="import-info-text">导入的数据支持使用当前的密钥解密，无需提供口令</Text>
+        </View>
+      )}
+
+      {/* 需要口令提示 */}
+      {passcodeStep.status === 'need_input' && content && !preview && (
+        <View className="import-info">
+          <Text className="import-info-text">该文件已加密，需输入导出时的口令才能解析</Text>
         </View>
       )}
 
@@ -201,7 +204,9 @@ const ImportDialogContent: React.FC<ImportDialogContentProps> = ({ content, onIm
 
       {/* 底部按钮 */}
       <View className="import-footer">
-        {!preview ? (
+        {passcodeStep.status === 'need_input' && !preview ? (
+          <Button type="primary" onClick={() => onPasscodeOpenRef.current?.(passcodeStep.type, submitRef.current)}>输入口令</Button>
+        ) : !preview ? (
           <Button type="primary" disabled={!canParse} onClick={handlePreview}>解析</Button>
         ) : (
           <Button type="primary" disabled={!canImport} onClick={handleImport}>

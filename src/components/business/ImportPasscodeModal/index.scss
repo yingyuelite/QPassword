@@ -1,0 +1,6 @@
+@use './index.rn.scss';
+
+/* 小程序端：遮罩用 fixed 铺满屏幕（RN 端使用 index.rn.scss 中的 absolute） */
+.import-pm-mask {
+  position: fixed;
+}

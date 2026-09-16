@@ -1,0 +1,89 @@
+/* 公共样式（RN 端）：全部使用 RN 支持的属性
+   - 遮罩用 absolute 铺满（RN 不支持 position: fixed）
+   - 不滚动、无缩放动画，保证 PatternLock 测量准确
+   - 深浅色由 CSS 变量驱动，具体值在 app.scss */
+.import-pm-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  /* RN 端（Android）z-index 无效，视图层级由 elevation 决定 */
+  elevation: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.import-pm-card {
+  width: 85%;
+  background-color: var(--bg-card, #ffffff);
+  border-radius: 20px;
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.import-pm-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.import-pm-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--text-primary, #333333);
+}
+
+.import-pm-close {
+  font-size: 44px;
+  color: var(--text-hint, #999999);
+  padding-left: 24px;
+  line-height: 48px;
+}
+
+.import-pm-desc {
+  width: 100%;
+  font-size: 24px;
+  color: var(--text-hint, #999999);
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 36px;
+}
+
+.import-pm-pattern {
+  width: 100%;
+  padding: 20px;
+}
+
+.import-pm-input-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.import-pm-input-field {
+  flex: 1;
+}
+
+.import-pm-placeholder {
+  color: var(--text-placeholder, #cccccc);
+}
+
+.import-pm-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 20px;
+}

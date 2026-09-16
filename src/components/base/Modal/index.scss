@@ -21,11 +21,9 @@
   transform: scale(1);
 }
 
-/* 微信端兜底：即使 JS 测量尚未完成/失败（body 暂无确定高度），
-   也让 scroll-view 的溢出内容只裁剪在自己的盒内，不给 footer 留覆盖机会 */
 .modal-body {
   overflow: hidden;
-  width: 100%;
+  // width: 100%; // 不能设置为 width: 100%，否则组件宽度可能会溢出屏幕，暂不知原因
 }
 
 /* 提升 footer 层级，防止极端情况下 body 溢出内容绘制到 footer 之上 */

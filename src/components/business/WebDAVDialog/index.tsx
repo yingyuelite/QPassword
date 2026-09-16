@@ -6,9 +6,11 @@ import ConfirmDialog from '@/components/base/ConfirmDialog'
 import Button from '@/components/base/Button'
 import WebDAVConfigForm from '@/components/business/WebDAVConfigForm'
 import ImportDialogContent from '@/components/business/ImportDialogContent'
+import ImportPasscodeModal from '@/components/business/ImportPasscodeModal'
 import { useWebDAVConfig } from '@/hooks/useWebDAVConfig'
 import { stopPropagation } from '@/utils/event'
 import { Password } from '@/types/password'
+import { PasscodeType } from '@/types/passcode'
 import { BackupMeta } from '@/types/backup'
 import { WebDAVConfig } from '@/types/webdav'
 import { backupToWebDAV, readBackupMeta, downloadBackupContent } from '@/utils/webdav'
@@ -24,6 +26,12 @@ interface WebDAVDialogProps {
 
 type ViewMode = 'list' | 'add' | 'edit' | 'restore'
 
+/** 页面级口令弹窗状态：由 ImportDialogContent 通知打开 */
+interface PasscodeModalState {
+  type: PasscodeType
+  submit: (value: string) => Promise<Password[] | null>
+}
+
 const WebDAVDialog: React.FC<WebDAVDialogProps> = ({ visible, passwords, onImport, onClose }) => {
   const { configs, add, update, remove } = useWebDAVConfig(visible)
   const [viewMode, setViewMode] = useState<ViewMode>('list')
@@ -34,6 +42,7 @@ const WebDAVDialog: React.FC<WebDAVDialogProps> = ({ visible, passwords, onImpor
   const [backupMetaMap, setBackupMetaMap] = useState<Record<string, BackupMeta | null>>({})
   const [restoreContent, setRestoreContent] = useState<string | null>(null)
   const [showReminder, setShowReminder] = useState(false)
+  const [passcodeModal, setPasscodeModal] = useState<PasscodeModalState | null>(null)
   // 打开弹窗时重置为列表模式
   useEffect(() => {
     if (visible) {
@@ -41,6 +50,7 @@ const WebDAVDialog: React.FC<WebDAVDialogProps> = ({ visible, passwords, onImpor
       setEditingConfig(undefined)
       setRestoreContent(null)
       setShowReminder(false)
+      setPasscodeModal(null)
     }
   }, [visible])
 
@@ -93,6 +103,16 @@ const WebDAVDialog: React.FC<WebDAVDialogProps> = ({ visible, passwords, onImpor
     setViewMode('list')
     setEditingConfig(undefined)
     setRestoreContent(null)
+    setPasscodeModal(null)
+  }, [])
+
+  // 稳定回调引用：避免每次渲染生成新的行内函数，防止 ImportDialogContent effect 反复触发
+  const handlePasscodeOpen = useCallback((type: PasscodeType, submit: (value: string) => Promise<Password[] | null>) => {
+    setPasscodeModal({ type, submit })
+  }, [])
+
+  const handlePasscodeClose = useCallback(() => {
+    setPasscodeModal(null)
   }, [])
 
   const handleBackup = useCallback(async () => {
@@ -132,6 +152,7 @@ const WebDAVDialog: React.FC<WebDAVDialogProps> = ({ visible, passwords, onImpor
   }, [selectedConfig, loading])
 
   const handleRestoreDone = useCallback(() => {
+    setPasscodeModal(null)
     setRestoreContent(null)
     setViewMode('list')
     onClose()
@@ -230,6 +251,8 @@ const WebDAVDialog: React.FC<WebDAVDialogProps> = ({ visible, passwords, onImpor
         content={restoreContent!}
         onImport={onImport}
         onDone={handleRestoreDone}
+        onPasscodeOpen={handlePasscodeOpen}
+        onPasscodeClose={handlePasscodeClose}
       />
     </View>
   )
@@ -258,6 +281,18 @@ const WebDAVDialog: React.FC<WebDAVDialogProps> = ({ visible, passwords, onImpor
         confirmColor="#e64340"
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
+      />
+      {/* 页面级全屏口令弹窗：置于 base Modal 之外，避免被 .modal 的 transform 缩放裁剪 */}
+      <ImportPasscodeModal
+        visible={passcodeModal !== null}
+        passcodeType={passcodeModal?.type ?? 'pattern'}
+        onClose={() => setPasscodeModal(null)}
+        onSubmit={async (value) => {
+          if (!passcodeModal) return null
+          const result = await passcodeModal.submit(value)
+          if (result) setPasscodeModal(null)
+          return result
+        }}
       />
     </>
   )
