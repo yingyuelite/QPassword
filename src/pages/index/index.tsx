@@ -221,7 +221,7 @@ const IndexContent = () => {
               onClick={() => setSearchVisible(true)}
               onLongPress={handleSearchReset}
             >
-              <Icon name="search" size={20} />
+              <Icon name="search" size={42} />
             </Button>
             <Button
               type="text"
@@ -229,7 +229,7 @@ const IndexContent = () => {
               style={{ marginLeft: 8 }}
               onClick={() => setMenuVisible(true)}
             >
-              <Icon name="menu" size={20} />
+              <Icon name="menu" size={42} />
             </Button>
           </View>
         </View>

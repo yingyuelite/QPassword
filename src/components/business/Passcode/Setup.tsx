@@ -77,7 +77,7 @@ const PasscodeSetup: React.FC<SetupProps> = ({ onSetup }) => {
     return (
       <View className="master-page">
         <View className="master-card">
-          <Icon name="key" size={48} />
+          <Icon name="key" size={80} />
           <Text className="master-title">设置口令</Text>
           <Text className="master-desc">口令用于保护您的密码数据，请选择一种方式设置。</Text>
           <Text className="master-desc">请注意：不管是图案口令还是文字口令，请尽可能设置的长一点，因为口令越长数据越安全。</Text>

@@ -39,7 +39,7 @@ const PasswordItemHeader: React.FC<HeaderProps> = ({ title, isTop, createDate, i
         <Text className="item-title">{title}</Text>
       </View>
       <View className="item-header-right">
-        {isTop ? <Icon name="pin" size={16} /> : null}
+        {isTop ? <Icon name="pin" size={29} /> : null}
         <Text className="item-time">{formatTime(createDate)}</Text>
       </View>
     </View>

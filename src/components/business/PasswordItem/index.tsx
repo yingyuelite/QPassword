@@ -115,13 +115,13 @@ const PasswordItem: React.FC<PasswordItemProps> = memo(function PasswordItem({
 
       <View className="item-actions">
         <Button type="text" size="custom" onClick={() => onEdit(pwd)}>
-          <Icon name="edit" size={18} />
+          <Icon name="edit" size={38} />
         </Button>
         <Button type="text" size="custom" onClick={() => onDelete(pwd)}>
-          <Icon name="delete" size={18} />
+          <Icon name="delete" size={38} />
         </Button>
         <Button type="text" size="custom" className="action-copy" onClick={handleCopyAll}>
-          <Icon name="copy" size={18} />
+          <Icon name="copy" size={38} />
         </Button>
       </View>
     </View>

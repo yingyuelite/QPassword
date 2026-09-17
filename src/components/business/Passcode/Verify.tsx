@@ -68,7 +68,7 @@ const PasscodeVerify: React.FC<VerifyProps> = ({ passcode, onVerify }) => {
     return (
       <View className="master-page">
         <View className="master-card">
-          <Icon name="key" size={48} />
+          <Icon name="key" size={80} />
           <Text className="master-title">验证口令</Text>
           <Text className="master-desc">请绘制图案解锁</Text>
           <View className={`pattern-wrap${error ? ' pattern-error' : ''}`}>
@@ -82,7 +82,7 @@ const PasscodeVerify: React.FC<VerifyProps> = ({ passcode, onVerify }) => {
   return (
     <View className="master-page">
       <View className="master-card">
-        <Icon name="key" size={48} />
+        <Icon name="key" size={80} />
         <Text className="master-title">验证口令</Text>
         <Text className="master-desc">请输入口令解锁</Text>
         <View className="master-input-row">
