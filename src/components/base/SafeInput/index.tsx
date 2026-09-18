@@ -1,5 +1,6 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useContext } from 'react'
 import { Input } from '@tarojs/components'
+import { ModalKeyboardContext } from '@/components/base/Modal/context'
 
 // 通用非受控输入框：
 // 彻底不传 value（只传 defaultValue），输入框展示完全交给原生输入框自身维护，
@@ -47,6 +48,8 @@ const SafeInput: React.FC<SafeInputProps> = ({
   const valueRef = useRef(defaultValue)
   // 上一次渲染时的 defaultValue，用于识别"外部更新"而非渲染噪音
   const lastDefaultRef = useRef(defaultValue)
+  // 在 base Modal 内时用于上报键盘高度，供弹窗避让输入法（不在 Modal 内为 null）
+  const reportKeyboardHeight = useContext(ModalKeyboardContext)
 
   // defaultValue 变化且与当前输入值不同时重挂载输入框（重置、历史回填、清空等场景）。
   // 输入过程中若父级把同一值回传，defaultValue 与 valueRef 相同，不会重挂载，避免输入中断
@@ -64,10 +67,23 @@ const SafeInput: React.FC<SafeInputProps> = ({
     onInput?.(v)
   }, [onInput])
 
+  // 聚焦时微信的 focus 事件会携带键盘高度（e.detail.height），上报给 Modal 用于避让输入法
+  const handleFocus = useCallback((e: any) => {
+    onFocus?.(e)
+    reportKeyboardHeight?.(e?.detail?.height ?? 0)
+  }, [onFocus, reportKeyboardHeight])
+
+  // 键盘高度变化（含收起时 height=0），持续同步给 Modal
+  const handleKeyboardHeightChange = useCallback((e: any) => {
+    reportKeyboardHeight?.(e?.detail?.height ?? 0)
+  }, [reportKeyboardHeight])
+
   const handleBlur = useCallback(() => {
     onBlur?.()
     onChange?.(valueRef.current)
-  }, [onBlur, onChange])
+    // 失焦时键盘通常会收起，重置避让距离（兼容不触发全局/组件键盘事件的情况）
+    reportKeyboardHeight?.(0)
+  }, [onBlur, onChange, reportKeyboardHeight])
 
   const handleConfirm = useCallback(() => {
     onConfirm?.(valueRef.current)
@@ -81,7 +97,8 @@ const SafeInput: React.FC<SafeInputProps> = ({
       onInput={handleInput}
       onBlur={handleBlur}
       onConfirm={handleConfirm}
-      onFocus={onFocus}
+      onFocus={handleFocus}
+      onKeyboardHeightChange={reportKeyboardHeight ? handleKeyboardHeightChange : undefined}
       onClick={onClick}
       {...rest}
     />

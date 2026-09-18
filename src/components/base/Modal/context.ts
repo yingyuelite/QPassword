@@ -1,0 +1,15 @@
+import { createContext } from 'react'
+
+/**
+ * 由 base Modal 提供：Modal 内部的输入框在聚焦 / 失焦 / 键盘高度变化时，
+ * 通过它上报键盘高度（px），供弹窗避让输入法。
+ *
+ * 值为 null 表示当前输入框不在 Modal 内（如普通页面），无需上报。
+ *
+ * 之所以由输入框主动上报，而不只监听全局 Taro/wx.onKeyboardHeightChange：
+ * 全局 API 依赖 Taro 启动时从 wx 代理生成，存在不可用的情况；而 input 自身的
+ * focus / keyboardheightchange 事件会稳定携带键盘高度，最可靠。
+ */
+export type ReportKeyboardHeight = (height: number) => void
+
+export const ModalKeyboardContext = createContext<ReportKeyboardHeight | null>(null)

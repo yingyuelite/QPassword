@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, ScrollView } from '@tarojs/components'
 import Taro from '@tarojs/taro'
+import { ModalKeyboardContext } from './context'
 import './index.scss'
 
 /** 过渡动画时长，需与 index.scss 中的 transition 时长保持一致 */
@@ -29,7 +30,33 @@ const scale = windowWidth / 750
 // 估算 .modal-header / .modal-footer 的实际渲染高度（含上下 padding 与行高），略微取大作为安全余量
 const headerHeight = Math.round(100 * scale)
 const footerHeight = Math.round(120 * scale)
-const bodyMaxHeight = Math.max(dialogHeight - headerHeight - footerHeight, 0)
+
+type KeyboardHeightCallback = (res: { height: number }) => void
+
+/** 微信小程序全局 wx 上与键盘高度相关的接口（基础库 >= 2.7.0） */
+interface WechatKeyboardApis {
+  onKeyboardHeightChange?: (callback: KeyboardHeightCallback) => void
+  offKeyboardHeightChange?: (callback: KeyboardHeightCallback) => void
+}
+// 微信小程序运行时提供全局 wx；直接取用，不依赖 Taro 的 API 代理是否包含该接口
+declare const wx: WechatKeyboardApis | undefined
+
+/**
+ * 订阅全局键盘高度变化（兜底手段之一）。
+ * 优先直接调用微信原生 wx.onKeyboardHeightChange（不依赖 Taro 代理）；
+ * 若不可用再退回 Taro API。返回取消订阅函数。
+ */
+function subscribeKeyboardHeight(callback: KeyboardHeightCallback): () => void {
+  if (typeof wx !== 'undefined' && typeof wx.onKeyboardHeightChange === 'function') {
+    wx.onKeyboardHeightChange(callback)
+    return () => wx.offKeyboardHeightChange?.(callback)
+  }
+  if (typeof Taro.onKeyboardHeightChange === 'function') {
+    Taro.onKeyboardHeightChange(callback)
+    return () => Taro.offKeyboardHeightChange?.(callback)
+  }
+  return () => {}
+}
 
 /** 自增计数器，为每个 Modal 实例生成唯一 id */
 // let modalIdSeq = 0
@@ -49,6 +76,17 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
   const enterTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const exitTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  /**
+   * 输入法（键盘）高度。弹窗内的输入框聚焦时键盘会打开，若不做处理，固定定位的弹窗
+   * 不会随键盘上移，表单底部的输入框会被键盘遮挡。
+   * 收起键盘后高度为 0，弹窗恢复居中。
+   */
+  const [keyboardHeight, setKeyboardHeight] = useState(0)
+
+  useEffect(() => {
+    return subscribeKeyboardHeight((res) => setKeyboardHeight(res.height))
+  }, [])
+
   useEffect(() => {
     if (visible) {
       // 进入：先挂载并取消隐藏，下一帧再切换到显示态，确保 transition 生效
@@ -62,6 +100,7 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
     } else {
       // 退出：先切到隐藏态播放动画，动画结束后彻底隐藏（但不卸载，避免小程序端同级节点数组重写导致列表滚动位置丢失）
       setShow(false)
+      setKeyboardHeight(0)
       if (enterTimer.current) {
         clearTimeout(enterTimer.current)
         enterTimer.current = null
@@ -79,41 +118,53 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
 
   if (!mounted) return null
 
+  // 键盘弹出时，把遮罩的下边界上移到键盘顶部（bottom = 键盘高度），弹窗便会在"键盘上方
+  // 区域"内重新居中；同时限制弹窗与 body 的最大高度，保证弹窗整体位于键盘之上
+  // （内容由内部 ScrollView 滚动展示）。
+  const keyboardOpen = keyboardHeight > 0
+  const availableHeight = Math.max(windowHeight - keyboardHeight, 0)
+  const dialogMaxHeight = keyboardOpen ? Math.min(dialogHeight, availableHeight) : dialogHeight
+  const bodyMaxHeight = Math.max(dialogMaxHeight - headerHeight - footerHeight, 0)
+
   return (
-    <View
-      className={`modal-mask ${show ? 'modal-mask-show' : ''} ${hidden ? 'modal-mask-hidden' : ''}`}
-      // @ts-ignore – catchtouchmove 是小程序原生属性，Taro 类型未覆盖
-      catchtouchmove={() => {}}
-    >
+    <ModalKeyboardContext.Provider value={setKeyboardHeight}>
       <View
-        className={`modal ${show ? 'modal-show' : ''}`}
+        className={`modal-mask ${show ? 'modal-mask-show' : ''} ${hidden ? 'modal-mask-hidden' : ''}`}
+        // @ts-ignore – catchtouchmove 是小程序原生属性，Taro 类型未覆盖
+        catchtouchmove={() => {}}
+        style={keyboardOpen ? { bottom: keyboardHeight } : undefined}
       >
-        {title ? (
-          <View className="modal-header">
-            <Text className="modal-title">{title}</Text>
-            <Text className="modal-close" onClick={onClose}>×</Text>
-          </View>
-        ) : null}
-
-        <ScrollView
-          className="modal-body"
-          scrollY
-          // @ts-ignore
-          nestedScrollEnabled
-          style={{ width: dialogWidth, maxHeight: bodyMaxHeight }}
+        <View
+          className={`modal ${show ? 'modal-show' : ''}`}
+          style={keyboardOpen ? { maxHeight: dialogMaxHeight } : undefined}
         >
-          <View className="modal-content">
-            {children}
-          </View>
-        </ScrollView>
+          {title ? (
+            <View className="modal-header">
+              <Text className="modal-title">{title}</Text>
+              <Text className="modal-close" onClick={onClose}>×</Text>
+            </View>
+          ) : null}
 
-        {footer ? (
-          <View className="modal-footer">
-            {footer}
-          </View>
-        ) : null}
+          <ScrollView
+            className="modal-body"
+            scrollY
+            // @ts-ignore
+            nestedScrollEnabled
+            style={{ width: dialogWidth, maxHeight: bodyMaxHeight }}
+          >
+            <View className="modal-content">
+              {children}
+            </View>
+          </ScrollView>
+
+          {footer ? (
+            <View className="modal-footer">
+              {footer}
+            </View>
+          ) : null}
+        </View>
       </View>
-    </View>
+    </ModalKeyboardContext.Provider>
   )
 }
 
