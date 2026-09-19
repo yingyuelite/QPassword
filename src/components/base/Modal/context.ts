@@ -15,3 +15,12 @@ export type KeyboardHeightSource = 'global' | 'focus' | 'keyboardchange'
 export type ReportKeyboardHeight = (height: number, source?: KeyboardHeightSource) => void
 
 export const ModalKeyboardContext = createContext<ReportKeyboardHeight | null>(null)
+
+/**
+ * 由 base Modal 提供：Modal 内的输入框聚焦时上报自身 id。
+ * Modal 会在键盘弹出、弹窗高度收缩后把该输入框滚动到可视区域，
+ * 避免位于表单底部、被收缩后的 body 裁掉的输入框不可见。
+ */
+export type ReportInputFocus = (id: string) => void
+
+export const ModalInputFocusContext = createContext<ReportInputFocus | null>(null)

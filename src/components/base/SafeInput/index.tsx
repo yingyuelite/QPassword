@@ -1,6 +1,9 @@
 import React, { useState, useRef, useCallback, useContext } from 'react'
 import { Input } from '@tarojs/components'
-import { ModalKeyboardContext } from '@/components/base/Modal/context'
+import { ModalKeyboardContext, ModalInputFocusContext } from '@/components/base/Modal/context'
+
+// 为每个 SafeInput 生成唯一 id，供 Modal 在键盘弹出后 scrollIntoView 定位
+let inputIdSeq = 0
 
 // 通用非受控输入框：
 // 彻底不传 value（只传 defaultValue），输入框展示完全交给原生输入框自身维护，
@@ -50,6 +53,11 @@ const SafeInput: React.FC<SafeInputProps> = ({
   const lastDefaultRef = useRef(defaultValue)
   // 在 base Modal 内时用于上报键盘高度，供弹窗避让输入法（不在 Modal 内为 null）
   const reportKeyboardHeight = useContext(ModalKeyboardContext)
+  // 在 base Modal 内时用于上报聚焦，供弹窗把输入框滚动到可视区域
+  const reportInputFocus = useContext(ModalInputFocusContext)
+  // 唯一 id：Modal 通过 scrollIntoView 定位到聚焦的输入框（惰性生成，避免每次渲染都自增）
+  const inputIdRef = useRef<string>('')
+  if (!inputIdRef.current) inputIdRef.current = `safe-input-${++inputIdSeq}`
 
   // defaultValue 变化且与当前输入值不同时重挂载输入框（重置、历史回填、清空等场景）。
   // 输入过程中若父级把同一值回传，defaultValue 与 valueRef 相同，不会重挂载，避免输入中断
@@ -70,8 +78,9 @@ const SafeInput: React.FC<SafeInputProps> = ({
   // 聚焦时微信的 focus 事件会携带键盘高度（e.detail.height），上报给 Modal 用于避让输入法
   const handleFocus = useCallback((e: any) => {
     onFocus?.(e)
+    reportInputFocus?.(inputIdRef.current)
     reportKeyboardHeight?.(e?.detail?.height ?? 0, 'focus')
-  }, [onFocus, reportKeyboardHeight])
+  }, [onFocus, reportInputFocus, reportKeyboardHeight])
 
   // 键盘高度变化（含收起时 height=0），持续同步给 Modal
   const handleKeyboardHeightChange = useCallback((e: any) => {
@@ -93,15 +102,16 @@ const SafeInput: React.FC<SafeInputProps> = ({
   return (
     <Input
       key={inputKey}
+      // 仅在 Modal 内需要 id（供 Modal 键盘弹出后 scrollIntoView 定位）
+      id={reportInputFocus ? inputIdRef.current : undefined}
       defaultValue={defaultValue}
       onInput={handleInput}
       onBlur={handleBlur}
       onConfirm={handleConfirm}
       onFocus={handleFocus}
       onKeyboardHeightChange={reportKeyboardHeight ? handleKeyboardHeightChange : undefined}
-      // 在 base Modal 内时，键盘避让完全由 Modal 负责（上报高度 + 移动弹窗）。
-      // 必须关闭微信自带的 adjust-position：iOS 端它会把 position:fixed 的弹窗也一起上推，
-      // 与手动上移叠加导致抬得过高（弹窗与键盘间出现大片空隙）；Android 端只滚动页面故无此问题。
+      // 在 base Modal 内时，键盘避让完全由 Modal 负责（上移弹窗 + 滚动定位到聚焦输入框），
+      // 关闭微信自带的 adjust-position，避免系统自动上推/滚动与手动逻辑相互干扰。
       adjustPosition={reportKeyboardHeight ? false : undefined}
       onClick={onClick}
       {...rest}

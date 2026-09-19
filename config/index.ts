@@ -33,6 +33,10 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
     compiler: {
       type: 'webpack5',
       prebundle: {
+        // watch/开发模式默认开启预打包（prebundle），会把 react-dom 等依赖作为未压缩的
+        // 独立 chunk 产出（约 1MB），叠加后使主包超过微信 2MB 上限。关闭后依赖会并入
+        // 主构建并被压缩，体积显著减小（代价是 watch 首次/增量构建略慢）。
+        enable: false,
         exclude: ['react-native'],
       },
     },
@@ -73,6 +77,10 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
+        // watch/开发构建默认不压缩且 nodeEnv=development，会把 React 开发版并保留大量
+        // 未压缩代码打进主包，导致超过微信 2MB 上限。强制 production + 开启压缩，显著减小体积。
+        // chain.optimization.nodeEnv('production')
+        chain.optimization.minimize(true)
         // 小程序端不使用 react-native，将其指向空模块以避免 Flow 语法报错
         chain.resolve.alias.set('react-native', path.resolve(__dirname, 'empty-module.js'))
         // 将 wasm/pbkdf2.wasm 复制到小程序代码包（输出根目录）的 wasm/ 下，
