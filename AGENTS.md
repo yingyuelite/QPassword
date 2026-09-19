@@ -131,7 +131,7 @@ PBKDF2 算法的参数说明：
 - RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 RN 一致，就需要在所有用到 display: flex 的地方都显式声明主轴方向为 row: `flex-direction: row;` 。使用 flex 布局时，必须显式声明主轴方向，避免两端样式不一致。
 - RN 的事件对象没有 `stopPropagation` 方法。改用 `e.target === e.currentTarget` 判断点击的是遮罩本身而非子元素。
 - RN 不支持 `overflow-x / overflow-y` 拆分，只支持 `overflow` 单属性。可考虑将组件从 `View` 改为 `ScrollView` （Taro 的 `ScrollView` 组件支持 `scrollY` 属性）
-- Taro RN 运行时会自动给每个页面根元素包裹一个隐式 `ScrollView`，如果需要禁用这个隐式 `ScrollView`，需要在 `index.config.ts` 中设置 `disableScroll: process.env.TARO_ENV === 'rn'` 来禁用滚动。
+- Taro RN 运行时会自动给每个页面根元素包裹一个隐式 `ScrollView`，如果需要禁用这个隐式 `ScrollView`，需要在 `index.config.ts` 中设置 `disableScroll: true` 来禁用滚动。
 - React Native 的 Image 不支持 SVG 格式，只支持 PNG/JPEG 等格式，可考虑将 Icon 改为用 emoji 文字（✏️ 🗑️ 📋）通过 Text 组件渲染。
 - RN 的 `background` 只接受一种颜色 `backgroundColor`，不支持 background-image。在 tsx 中需要使用 `style={{ backgroundColor: color }}` 来设置。
 - 微信小程序端发起网络请求，只支持这些请求方法：`GET`, `POST`, `PUT`, `DELETE`, `HEAD`, `OPTIONS`, `TRACE`, `CONNECT` 。

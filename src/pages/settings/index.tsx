@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components'
+import { View, Text, ScrollView } from '@tarojs/components'
 import { useTheme, saveThemeMode } from '@/hooks/useTheme'
 import { THEME_MODE_OPTIONS, type ThemeMode } from '@/types/settings'
 import { showToast } from '@/utils/toast'
@@ -20,10 +20,12 @@ const Settings = () => {
   return (
     <ThemeRoot>
       <View className="settings-page">
-        <View className="settings-section">
-          <Text className="settings-section-title">主题</Text>
-          <RadioGroup options={THEME_MODE_OPTIONS} value={themeMode} onChange={handleSelect} />
-        </View>
+        <ScrollView enable-flex="true" scrollY className="settings-body">
+          <View className="settings-section">
+            <Text className="settings-section-title">主题</Text>
+            <RadioGroup options={THEME_MODE_OPTIONS} value={themeMode} onChange={handleSelect} />
+          </View>
+        </ScrollView>
       </View>
     </ThemeRoot>
   )

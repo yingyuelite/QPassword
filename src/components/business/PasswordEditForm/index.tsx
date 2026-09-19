@@ -86,7 +86,7 @@ const PasswordEditForm: React.FC<PasswordEditFormProps> = ({ form: editForm, pas
 
   return (
     <View className="edit-page" onClick={() => closeAllDropdowns()}>
-      <ScrollView className="edit-body" scrollY {...rnPageScrollProps}>
+      <ScrollView enable-flex="true" className="edit-body" scrollY {...rnPageScrollProps}>
         <View className="edit-form">
           {/* 用 CustomWrapper 将表单与整页大数据隔离，避免输入时 Taro 默认 setData 遍历整个页面虚拟 DOM
               导致 value 回写延迟，出现快速输入丢字、删除的字重新出现的现象 */}

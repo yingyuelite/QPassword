@@ -262,6 +262,7 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
             ) : null}
 
             <ScrollView
+              enable-flex="true"
               className="modal-body"
               scrollY
               // @ts-ignore

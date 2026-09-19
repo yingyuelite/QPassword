@@ -76,88 +76,90 @@ const About = () => {
 
   return (
     <ThemeRoot>
-      <ScrollView scrollY className="about-page">
-      <View className="about-header">
-        <View className="about-logo">
-          <Image className="about-logo-img" src={appIcon} mode="aspectFit" />
-        </View>
-        <Text className="about-name">{APP_NAME}</Text>
-        <Text className="about-subname">{APP_EN_NAME}</Text>
-        <Text className="about-slogan">{APP_SLOGAN}</Text>
-        <Text className="about-version">版本 v{packageJson.version}</Text>
-        {process.env.TARO_ENV === 'weapp' && (
-          <Button className="about-check-btn" type="dashed" size="small" block onClick={handleCheckUpdate}>
-            检查更新
-          </Button>
-        )}
-      </View>
-
-      <View className="about-section">
-        <Text className="about-section-title">使用说明</Text>
-        <View className="about-section-body">
-          {USAGE_ITEMS.map((text, idx) => (
-            <View key={idx} className="about-section-item">
-              <Text className="about-section-text">{text}</Text>
+      <View className="about-page">
+        <ScrollView enable-flex="true" scrollY className="about-body">
+          <View className="about-header">
+            <View className="about-logo">
+              <Image className="about-logo-img" src={appIcon} mode="aspectFit" />
             </View>
-          ))}
-        </View>
-      </View>
+            <Text className="about-name">{APP_NAME}</Text>
+            <Text className="about-subname">{APP_EN_NAME}</Text>
+            <Text className="about-slogan">{APP_SLOGAN}</Text>
+            <Text className="about-version">版本 v{packageJson.version}</Text>
+            {process.env.TARO_ENV === 'weapp' && (
+              <Button className="about-check-btn" type="dashed" size="small" block onClick={handleCheckUpdate}>
+                检查更新
+              </Button>
+            )}
+          </View>
 
-      <View className="about-section">
-        <Text className="about-section-title">数据安全性</Text>
-        <View className="about-section-body">
-          {SECURITY_ITEMS.map((text, idx) => (
-            <View key={idx} className="about-section-item">
-              <Text className="about-section-text">{text}</Text>
+          <View className="about-section">
+            <Text className="about-section-title">使用说明</Text>
+            <View className="about-section-body">
+              {USAGE_ITEMS.map((text, idx) => (
+                <View key={idx} className="about-section-item">
+                  <Text className="about-section-text">{text}</Text>
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
-      </View>
+          </View>
 
-      <View className="about-section">
-        <Text className="about-section-title">开发者信息</Text>
-        <View className="about-section-body">
-          <View className="about-section-item">
-            <Text className="about-dev-label">开发者</Text>
-            <Text className="about-section-text about-dev-name">@独毒火</Text>
+          <View className="about-section">
+            <Text className="about-section-title">数据安全性</Text>
+            <View className="about-section-body">
+              {SECURITY_ITEMS.map((text, idx) => (
+                <View key={idx} className="about-section-item">
+                  <Text className="about-section-text">{text}</Text>
+                </View>
+              ))}
+            </View>
           </View>
-          <View className="about-section-item">
-            <Text className="about-dev-label">开发者邮箱</Text>
-            <Text className="about-section-text about-dev-email" selectable onClick={handleCopyEmail}>{DEV_EMAIL}</Text>
-          </View>
-          <View className="about-section-item">
-            <Text className="about-dev-label">开源地址</Text>
-            <Text className="about-section-text about-dev-link" selectable onClick={handleOpenGithub}>{GITHUB_URL}</Text>
-          </View>
-          <View className="about-section-item">
-            <Text className="about-dev-label">动力来自</Text>
-            <Text className="about-section-text about-dev-power">@乐桃</Text>
-          </View>
-        </View>
-      </View>
 
-      <View className="about-footer">
-        <Button
-          className="about-clear-btn"
-          type="text"
-          size="small"
-          textColor="#999"
-          onClick={() => setClearVisible(true)}
-        >
-          清空密码
-        </Button>
-      </View>
+          <View className="about-section">
+            <Text className="about-section-title">开发者信息</Text>
+            <View className="about-section-body">
+              <View className="about-section-item">
+                <Text className="about-dev-label">开发者</Text>
+                <Text className="about-section-text about-dev-name">@独毒火</Text>
+              </View>
+              <View className="about-section-item">
+                <Text className="about-dev-label">开发者邮箱</Text>
+                <Text className="about-section-text about-dev-email" selectable onClick={handleCopyEmail}>{DEV_EMAIL}</Text>
+              </View>
+              <View className="about-section-item">
+                <Text className="about-dev-label">开源地址</Text>
+                <Text className="about-section-text about-dev-link" selectable onClick={handleOpenGithub}>{GITHUB_URL}</Text>
+              </View>
+              <View className="about-section-item">
+                <Text className="about-dev-label">动力来自</Text>
+                <Text className="about-section-text about-dev-power">@乐桃</Text>
+              </View>
+            </View>
+          </View>
 
-      <ConfirmDialog
-        visible={clearVisible}
-        title="清空密码"
-        content="确定要清空所有密码吗？清空后不可恢复！"
-        confirmText="清空"
-        confirmColor="#e64340"
-        onConfirm={handleClear}
-        onCancel={() => setClearVisible(false)}
-      />
-      </ScrollView>
+          <View className="about-footer">
+            <Button
+              className="about-clear-btn"
+              type="text"
+              size="small"
+              textColor="#999"
+              onClick={() => setClearVisible(true)}
+            >
+              清空密码
+            </Button>
+          </View>
+
+          <ConfirmDialog
+            visible={clearVisible}
+            title="清空密码"
+            content="确定要清空所有密码吗？清空后不可恢复！"
+            confirmText="清空"
+            confirmColor="#e64340"
+            onConfirm={handleClear}
+            onCancel={() => setClearVisible(false)}
+          />
+        </ScrollView>
+      </View>
     </ThemeRoot>
   )
 }

@@ -77,6 +77,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ visible, items, onClose }) =>
     <View className="context-menu-mask" onClick={onClose}>
       <View className="context-menu" style={RN_SHADOW} onClick={(e) => stopPropagation(e)}>
         <ScrollView
+          enable-flex="true"
           className="context-menu-scroll"
           scrollY
           // @ts-ignore

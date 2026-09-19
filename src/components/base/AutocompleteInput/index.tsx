@@ -257,6 +257,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
         style={showStrip ? { bottom: keyboardHeight } : { display: 'none' }}
       >
         <ScrollView
+          enable-flex="true"
           className="autocomplete-strip-scroll"
           scrollY
           onClick={(e) => stopPropagation(e)}
@@ -270,6 +271,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
         </ScrollView>
       </View>
       <ScrollView
+        enable-flex="true"
         className="autocomplete-dropdown"
         style={showBelow ? {} : { display: 'none' }}
         scrollY

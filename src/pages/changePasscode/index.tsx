@@ -21,7 +21,7 @@ const ChangePasscodePage = () => {
       <View className="change-page">
         {/* 内容较长（尤其图案口令）时允许滚动，避免底部被裁切：
             RN 端嵌套滚动开启，避免绘制图案时误触发页面滚动 */}
-        <ScrollView className="change-body" scrollY {...(isRN ? { nestedScrollEnabled: true } : {})}>
+        <ScrollView enable-flex="true" className="change-body" scrollY {...(isRN ? { nestedScrollEnabled: true } : {})}>
           <View className="change-card">
             <ChangePasscode onChange={change} onClose={handleClose} />
           </View>

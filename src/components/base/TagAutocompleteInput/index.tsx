@@ -247,6 +247,7 @@ const TagAutocompleteInput: React.FC<TagAutocompleteInputProps> = ({ tags, allTa
             否则 weapp 端 CustomWrapper 在子树结构变化（下拉出现/消失）时会对该子树整体
             cn 节点重置，把输入框元素旧的 value 重新应用回去，导致正在输入的内容被替换 */}
         <ScrollView
+          enable-flex="true"
           className="tag-autocomplete-dropdown"
           style={showDropdown ? {} : { display: 'none' }}
           scrollY

@@ -1,7 +1,7 @@
 @use './index.rn.scss';
 
 .about-page {
-  min-height: 100vh;
+  height: 100vh;
 }
 
 /* 微信/H5 端去掉内容高度上限，卡片随内容自然撑开（整页本身就是 scroll-view）。
