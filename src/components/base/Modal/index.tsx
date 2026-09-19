@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View, Text, ScrollView } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { ModalKeyboardContext } from './context'
@@ -82,10 +82,67 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
    * 收起键盘后高度为 0，弹窗恢复居中。
    */
   const [keyboardHeight, setKeyboardHeight] = useState(0)
+  // 延迟归零的定时器：用于吞掉键盘动画 / 切换输入框过程中瞬时上报的 0
+  const keyboardResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // 防抖应用定时器：把键盘动画期间的多次上报合并为「稳定后的最新值」
+  const keyboardApplyTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const pendingHeightRef = useRef(0)
+  // 本次键盘会话内 keyboardchange 是否已上报过有效高度（用于让 focus 只做兜底）
+  const keyboardchangeReportedRef = useRef(false)
+
+  /**
+   * 合并多个键盘高度来源（输入框 focus / 输入框 keyboardheightchange / 全局 wx 事件）。
+   *
+   * 不能取「最大值」：iOS 首次 focus 会上报一个偏大的值（例如终值 367 之前先报 562），
+   * 取最大值会把偏大值永久保留，导致弹窗抬得过高（间隙≈弹窗高度）。
+   * 改为「防抖取最新稳定值」：动画期间的上报不断重置定时器，稳定后才应用最后一次值，
+   * 既能跟上键盘又能避免中间值与异常值造成的抖动/过高。
+   * 归零延迟更长，用于吞掉切换输入框时 blur(0)→focus(新值) 的瞬时 0。
+   */
+  const applyKeyboardHeight = useCallback((height: number, source?: string) => {
+    if (source === 'keyboardchange') {
+      keyboardchangeReportedRef.current = height > 0
+    }
+
+    // keyboardchange 是可靠的键盘高度来源；iOS 上 focus 的首个事件可能上报偏大值，
+    // 一旦本次键盘已由 keyboardchange 上报过，就忽略 focus，避免把高度带偏（过高）。
+    if (source === 'focus' && keyboardchangeReportedRef.current) return
+
+    const clearApply = () => {
+      if (keyboardApplyTimer.current) {
+        clearTimeout(keyboardApplyTimer.current)
+        keyboardApplyTimer.current = null
+      }
+    }
+    const clearReset = () => {
+      if (keyboardResetTimer.current) {
+        clearTimeout(keyboardResetTimer.current)
+        keyboardResetTimer.current = null
+      }
+    }
+
+    if (height > 0) {
+      clearReset()
+      pendingHeightRef.current = height
+      clearApply()
+      keyboardApplyTimer.current = setTimeout(() => {
+        keyboardApplyTimer.current = null
+        setKeyboardHeight(pendingHeightRef.current)
+      }, 60)
+    } else {
+      clearApply()
+      pendingHeightRef.current = 0
+      clearReset()
+      keyboardResetTimer.current = setTimeout(() => {
+        keyboardResetTimer.current = null
+        setKeyboardHeight(0)
+      }, 120)
+    }
+  }, [])
 
   useEffect(() => {
-    return subscribeKeyboardHeight((res) => setKeyboardHeight(res.height))
-  }, [])
+    return subscribeKeyboardHeight((res) => applyKeyboardHeight(res.height, 'global'))
+  }, [applyKeyboardHeight])
 
   useEffect(() => {
     if (visible) {
@@ -100,6 +157,14 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
     } else {
       // 退出：先切到隐藏态播放动画，动画结束后彻底隐藏（但不卸载，避免小程序端同级节点数组重写导致列表滚动位置丢失）
       setShow(false)
+      if (keyboardResetTimer.current) {
+        clearTimeout(keyboardResetTimer.current)
+        keyboardResetTimer.current = null
+      }
+      if (keyboardApplyTimer.current) {
+        clearTimeout(keyboardApplyTimer.current)
+        keyboardApplyTimer.current = null
+      }
       setKeyboardHeight(0)
       if (enterTimer.current) {
         clearTimeout(enterTimer.current)
@@ -113,6 +178,8 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
     return () => {
       if (enterTimer.current) clearTimeout(enterTimer.current)
       if (exitTimer.current) clearTimeout(exitTimer.current)
+      if (keyboardResetTimer.current) clearTimeout(keyboardResetTimer.current)
+      if (keyboardApplyTimer.current) clearTimeout(keyboardApplyTimer.current)
     }
   }, [])
 
@@ -127,7 +194,7 @@ const Modal: React.FC<ModalProps> = ({ visible, title, onClose, children, footer
   const bodyMaxHeight = Math.max(dialogMaxHeight - headerHeight - footerHeight, 0)
 
   return (
-    <ModalKeyboardContext.Provider value={setKeyboardHeight}>
+    <ModalKeyboardContext.Provider value={applyKeyboardHeight}>
       <View
         className={`modal-mask ${show ? 'modal-mask-show' : ''} ${hidden ? 'modal-mask-hidden' : ''}`}
         // @ts-ignore – catchtouchmove 是小程序原生属性，Taro 类型未覆盖

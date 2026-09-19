@@ -3,7 +3,8 @@
 .modal-mask {
   position: fixed;
   opacity: 0;
-  transition: opacity 0.15s ease;
+  /* bottom 用于键盘避让（见 index.tsx），加过渡让弹窗随键盘平滑上移/回落，避免跳动 */
+  transition: opacity 0.15s ease, bottom 0.25s ease-out;
 }
 
 .modal-mask-show {
@@ -13,7 +14,8 @@
 .modal {
   opacity: 0;
   transform: scale(0.92);
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  /* max-height 用于键盘避让时收缩弹窗高度，加过渡避免高度突变 */
+  transition: opacity 0.15s ease, transform 0.15s ease, max-height 0.25s ease-out;
 }
 
 .modal-show {
@@ -23,6 +25,8 @@
 
 .modal-body {
   overflow: hidden;
+  /* 与 .modal 的 max-height 过渡保持一致，避免内容区域高度突变 */
+  transition: max-height 0.25s ease-out;
   // width: 100%; // 不能设置为 width: 100%，否则组件宽度可能会溢出屏幕，暂不知原因
 }
 

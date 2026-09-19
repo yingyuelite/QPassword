@@ -10,6 +10,8 @@ import { createContext } from 'react'
  * 全局 API 依赖 Taro 启动时从 wx 代理生成，存在不可用的情况；而 input 自身的
  * focus / keyboardheightchange 事件会稳定携带键盘高度，最可靠。
  */
-export type ReportKeyboardHeight = (height: number) => void
+export type KeyboardHeightSource = 'global' | 'focus' | 'keyboardchange'
+
+export type ReportKeyboardHeight = (height: number, source?: KeyboardHeightSource) => void
 
 export const ModalKeyboardContext = createContext<ReportKeyboardHeight | null>(null)
