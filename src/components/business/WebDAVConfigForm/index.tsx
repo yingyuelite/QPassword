@@ -98,6 +98,7 @@ const WebDAVConfigForm: React.FC<WebDAVConfigFormProps> = ({ config, onSave, onC
           placeholder="请输入用户名"
           placeholderClass="webdav-form-placeholder"
         />
+        <Text className="webdav-form-hint">WebDAV 的账号，请到服务端（网盘）应用中获取</Text>
       </View>
 
       <View className="webdav-form-field">
@@ -108,6 +109,7 @@ const WebDAVConfigForm: React.FC<WebDAVConfigFormProps> = ({ config, onSave, onC
           placeholder="请输入密码"
           placeholderClass="webdav-form-placeholder"
         />
+        <Text className="webdav-form-hint">WebDAV 的应用密码，请到服务端（网盘）应用中获取</Text>
       </View>
 
       <View className="webdav-form-footer">

@@ -81,7 +81,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ visible, passwords, default
       }
     >
       <View className="search-field">
-        <Text className="search-hint">输入关键词搜索标题、用户名、邮箱、手机号、微信、登录方式、备注、网址、标签</Text>
+        <Text className="search-hint">输入关键词搜索。支持匹配标题、用户名、邮箱、手机号、微信、登录方式、备注、网址、标签等字段的内容：</Text>
         <SafeInput
           className="search-input"
           placeholderClass="search-input-placeholder"
