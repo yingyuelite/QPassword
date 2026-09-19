@@ -55,10 +55,12 @@ QPassword 帮助你在设备本地记录、查询和管理各类账号密码，�
 
 ## 运行截图
 
-| 截图 | 截图 | 
-| :---: | :---: |
-| ![密码列表](docs/assets/screenshot_passwords_list.jpg) |  ![密码编辑](docs/assets/screenshot_password_edit.jpg)  |
-| ![导出 / 备份](docs/assets/screenshot_password_export.jpg) | ![关于 / 安全](docs/assets/screenshot_about.jpg) |
+| 说明 | 浅色主题 | 深色主题 | 
+| :---: | :---: | :---: |
+| 密码列表 | ![密码列表](docs/assets/screenshot_passwords_list.jpg) | ![密码列表](docs/assets/screenshot_passwords_list_dark.jpg) |
+| 密码编辑 | ![密码编辑](docs/assets/screenshot_password_edit.jpg)  | ![密码编辑](docs/assets/screenshot_password_edit_dark.jpg)  |
+| 导出(备份) | ![导出](docs/assets/screenshot_password_export.jpg) | ![导出](docs/assets/screenshot_password_export_dark.jpg) |
+| 关于 |![关于](docs/assets/screenshot_about.jpg) |![关于](docs/assets/screenshot_about_dark.jpg) |
 
 ## 数据安全性
 
