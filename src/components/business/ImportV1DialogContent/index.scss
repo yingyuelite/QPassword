@@ -1,17 +1,17 @@
-.import-content-main {
+.import-v1-content {
 }
 
-.import-info {
+.import-v1-info {
   background-color: var(--bg-subtle, #f9f9f9);
   border-radius: 8px;
   margin-bottom: 24px;
 }
 
-.import-info-error {
+.import-v1-info-error {
   background-color: var(--bg-error, #fff2f0);
 }
 
-.import-info-text {
+.import-v1-text {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -21,14 +21,13 @@
   line-height: 40px;
 }
 
-.import-info-text-error {
+.import-v1-text-error {
   color: var(--color-danger, #e64340);
 }
 
-.import-footer {
+.import-v1-footer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  gap: 20px;
   margin-top: 32px;
 }

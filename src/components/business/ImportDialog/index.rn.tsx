@@ -4,6 +4,7 @@ import { showToast } from '@/utils/toast'
 import Modal from '@/components/base/Modal'
 import Button from '@/components/base/Button'
 import ImportDialogContent from '@/components/business/ImportDialogContent'
+import ImportV1DialogContent from '@/components/business/ImportV1DialogContent'
 import ImportPasscodeModal from '@/components/business/ImportPasscodeModal'
 import { Password } from '@/types/password'
 import { PasscodeType } from '@/types/passcode'
@@ -16,6 +17,9 @@ interface ImportDialogProps {
   onClose: () => void
 }
 
+/** v2：常规导入（.qp2）；v1：从旧版本导入明文备份（.qpwd） */
+type ImportMode = 'v2' | 'v1'
+
 /** 页面级口令弹窗状态：由 ImportDialogContent 通知打开 */
 interface PasscodeModalState {
   type: PasscodeType
@@ -23,6 +27,7 @@ interface PasscodeModalState {
 }
 
 const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose }) => {
+  const [mode, setMode] = useState<ImportMode>('v2')
   const [fileName, setFileName] = useState('')
   const [fileContent, setFileContent] = useState('')
   const [error, setError] = useState('')
@@ -38,9 +43,17 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
 
   const handleClose = useCallback(() => {
     resetState()
+    setMode('v2')
     setPasscodeModal(null)
     onClose()
   }, [resetState, onClose])
+
+  // 切换 v2/v1 导入模式：清空已选文件与口令弹窗，避免沿用另一种格式的状态
+  const handleSwitchMode = useCallback((next: ImportMode) => {
+    resetState()
+    setPasscodeModal(null)
+    setMode(next)
+  }, [resetState])
 
   // 稳定回调引用：避免每次渲染生成新的行内函数，防止 ImportDialogContent effect 反复触发
   const handlePasscodeOpen = useCallback((type: PasscodeType, submit: (value: string) => Promise<Password[] | null>) => {
@@ -58,8 +71,10 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
       const FileSystem = getFileSystem()
       if (!FileSystem) return
 
+      const isV1File = mode === 'v1'
       const result = await DocumentPicker.getDocumentAsync({
-        type: 'application/json',
+        // v1 的 .qpwd 可能是未知 MIME，放宽类型以免选不到；v2 的 .qp2 为 JSON
+        type: isV1File ? '*/*' : 'application/json',
         multiple: false,
         copyToCacheDirectory: true, // 复制到应用缓存目录，保证返回可读的 file:// URI
       })
@@ -69,7 +84,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
       }
 
       const file = result.assets[0]
-      const name = file.name || 'unknown.qp2'
+      const name = file.name || (isV1File ? 'unknown.qpwd' : 'unknown.qp2')
 
       setReading(true)
       setFileName(name)
@@ -89,15 +104,26 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
       console.error('选择文件失败:', err)
       showToast({ title: '文件选择失败', icon: 'error' })
     }
-  }, [])
+  }, [mode])
+
+  const isV1 = mode === 'v1'
 
   return (
     <>
-      <Modal visible={visible} title="导入密码" onClose={handleClose}>
+      <Modal visible={visible} title={isV1 ? '导入 v1 版本密码' : '导入密码'} onClose={handleClose}>
         <View className="import-content">
+          {/* v1 导入：仅明文支持提示 */}
+          {isV1 && (
+            <View className="import-info">
+              <Text className="import-info-text">
+                仅支持导入 v1 版本导出的明文密码文件（.qpwd），加密文件无法导入
+              </Text>
+            </View>
+          )}
+
           <View className="import-file-section">
             <Button type="default" textColor="#237166" onClick={handleChooseFile} disabled={reading}>
-              {reading ? '读取中...' : (fileName ? '重新选择文件' : '选择文件 (.qp2)')}
+              {reading ? '读取中...' : (fileName ? '重新选择文件' : (isV1 ? '选择文件 (.qpwd)' : '选择文件 (.qp2)'))}
             </Button>
             {fileName && (
               <Text className="import-file-name">已选择：{fileName}</Text>
@@ -112,7 +138,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
             </View>
           )}
 
-          {fileContent && (
+          {fileContent && !isV1 && (
             <ImportDialogContent
               content={fileContent}
               onImport={onImport}
@@ -121,6 +147,23 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ visible, onImport, onClose 
               onPasscodeClose={handlePasscodeClose}
             />
           )}
+          {fileContent && isV1 && (
+            <ImportV1DialogContent
+              content={fileContent}
+              onImport={onImport}
+              onDone={handleClose}
+            />
+          )}
+
+          {/* 底部次级入口：v2 模式进入 v1 导入，v1 模式返回 */}
+          <View className="import-v1-entry">
+            <Text
+              className="import-v1-link"
+              onClick={() => handleSwitchMode(isV1 ? 'v2' : 'v1')}
+            >
+              {isV1 ? '返回' : '从 v1 版本导入密码'}
+            </Text>
+          </View>
         </View>
       </Modal>
 
