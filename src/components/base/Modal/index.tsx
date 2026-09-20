@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View, Text, ScrollView } from '@tarojs/components'
 import Taro from '@tarojs/taro'
+import { getWindowInfo } from '@/utils/system'
 import { ModalKeyboardContext, ModalInputFocusContext } from './context'
 import './index.scss'
 
@@ -18,7 +19,7 @@ interface ModalProps {
 // RN 端 getSystemInfoSync 返回的是模块加载时的缓存值，旋转屏幕后不会更新，
 // 因此需要从 react-native 的 Dimensions 实时读取窗口尺寸
 const getScreenSize = () => {
-  return Taro.getSystemInfoSync()
+  return getWindowInfo()
 }
 
 const { windowHeight, windowWidth } = getScreenSize()

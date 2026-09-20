@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, ScrollView } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { stopPropagation } from '@/utils/event'
+import { getWindowInfo } from '@/utils/system'
 import './index.scss'
 
 export interface MenuItem {
@@ -44,7 +45,7 @@ function resolveMenuMaxHeight() {
     width = win.width
     height = win.height
   } else {
-    const info = Taro.getSystemInfoSync()
+    const info = getWindowInfo()
     width = info.windowWidth
     height = info.windowHeight
   }

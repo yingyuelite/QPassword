@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
+import { getAppBaseInfo } from '@/utils/system'
 import { darkColors, lightColors, type ThemeValue } from '@/utils/themeColors'
 import { getCachedSettings, loadSettings } from '@/utils/storage'
 import {
@@ -20,7 +21,7 @@ export type { ThemeMode } from '@/types/settings'
 export function getIsDark(): boolean {
   try {
     // 仅 weapp / h5 端支持 theme 字段
-    const info = (Taro as any).getSystemInfoSync?.()
+    const info = getAppBaseInfo()
     return info?.theme === 'dark'
   } catch (e) {
     return false

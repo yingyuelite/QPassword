@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from '@tarojs/components'
-import Taro from '@tarojs/taro'
 import { useTheme } from '@/hooks/useTheme'
+import { getWindowInfo } from '@/utils/system'
 
 const ICONS: Record<string, string> = {
   add: '➕',
@@ -37,7 +37,7 @@ interface IconProps {
 // - RN：按 windowWidth / 750 换算为 dp，与 Modal 等 *.rn.tsx 中的 p() 一致
 function scaleIconSize(size: number): number | string {
   if (process.env.TARO_ENV === 'rn') {
-    const windowWidth = Taro.getSystemInfoSync().windowWidth || 750
+    const windowWidth = getWindowInfo().windowWidth || 750
     return Math.round((size * windowWidth) / 750)
   }
   return `${size}rpx`
