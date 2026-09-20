@@ -24,6 +24,8 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ visible, passwords, default
   const [keyword, setKeyword] = useState('')
   const keywordRef = useRef('')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
+  // 每次打开时自增，用于强制输入框以最新默认值重挂载（见下方说明）
+  const [inputKey, setInputKey] = useState(0)
   const { history, add, clear, reload } = useSearchHistory()
 
   useEffect(() => {
@@ -33,6 +35,11 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ visible, passwords, default
       keywordRef.current = defaultKeyword
       setKeyword(defaultKeyword)
       setSelectedTags(defaultTags)
+      // 输入框是非受控组件，且仅在 defaultValue 变化时才会重挂载。
+      // 若上次未确认就修改/清空了输入框再关闭，此时 keyword 仍等于 defaultKeyword，
+      // setKeyword 不会触发更新，输入框会保留上次的残留内容，导致偶尔显示不出上次搜索关键词。
+      // 这里每次打开都递增 key，强制输入框按 defaultKeyword 重新挂载。
+      setInputKey((k) => k + 1)
     }
   }, [visible, reload, defaultKeyword, defaultTags])
 
@@ -83,6 +90,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ visible, passwords, default
       <View className="search-field">
         <Text className="search-hint">输入关键词搜索。支持匹配标题、用户名、邮箱、手机号、微信、登录方式、备注、网址、标签等字段的内容：</Text>
         <SafeInput
+          key={inputKey}
           className="search-input"
           placeholderClass="search-input-placeholder"
           placeholder="输入关键词"
