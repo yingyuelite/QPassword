@@ -111,6 +111,21 @@ npm run start
 npm run android
 ```
 
+- RN 端构建 Release 版本应用
+
+```bash
+npm run build:rn --platform android
+cd android && ./gradlew assembleRelease
+```
+
+- 微信小程序端打包发布
+
+```bash
+# 先将 project.config.json 中的 miniprogramRoot 修改为 dist/weapp-production ，再执行以下命令
+npm run build:weapp
+# 然后打开“微信开发者工具”，点击“上传”。后续到小程序版本管理后台执行“发布”操作。
+```
+
 ## License
 
 [Apache License 2.0](./LICENSE)
