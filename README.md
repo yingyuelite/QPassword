@@ -17,6 +17,8 @@ QPassword 帮助你在设备本地记录、查询和管理各类账号密码，�
   <img src="./docs/assets/weapp_code.jpg" width="200" alt="QPassword" />
 </p>
 
+- Android平台应用请到 [Release](https://github.com/yingyuelite/QPassword/releases) 页面下载 。
+
 ## 功能
 
 ### 记录密码
@@ -42,6 +44,7 @@ QPassword 帮助你在设备本地记录、查询和管理各类账号密码，�
 - 导出为单文件 `.qp2`，支持**密文模式**（加密导出）与**明文模式**（自行保证存储安全）
 - 支持导入本地密码文件，自动对比 `id` 相同的记录：内容不同则覆盖、相同则跳过
 - 密文导入时需提供导出时的口令才能解密
+- 支持导入 [v1版本的应用](https://github.com/liying2008/QPassword) 导出的**明文**密码文件
 
 ### 备份 / 恢复（WebDAV）
 
@@ -59,7 +62,8 @@ QPassword 帮助你在设备本地记录、查询和管理各类账号密码，�
 | :---: | :---: | :---: |
 | 密码列表 | ![密码列表](docs/assets/screenshot_passwords_list.jpg) | ![密码列表](docs/assets/screenshot_passwords_list_dark.jpg) |
 | 密码编辑 | ![密码编辑](docs/assets/screenshot_password_edit.jpg)  | ![密码编辑](docs/assets/screenshot_password_edit_dark.jpg)  |
-| 导出(备份) | ![导出](docs/assets/screenshot_password_export.jpg) | ![导出](docs/assets/screenshot_password_export_dark.jpg) |
+| 数据导出 | ![数据导出](docs/assets/screenshot_password_export.jpg) | ![数据导出](docs/assets/screenshot_password_export_dark.jpg) |
+| 数据备份 | ![数据备份](docs/assets/screenshot_password_backup.jpg) | ![数据备份](docs/assets/screenshot_password_backup_dark.jpg) |
 | 关于 |![关于](docs/assets/screenshot_about.jpg) |![关于](docs/assets/screenshot_about_dark.jpg) |
 
 ## 数据安全性
