@@ -4,6 +4,7 @@ import Taro from '@tarojs/taro'
 import { Password } from '@/types/password'
 import Icon from '@/components/base/Icon'
 import Button from '@/components/base/Button'
+import { openUrl } from '@/utils/url'
 import PasswordItemHeader from './Header'
 import './index.scss'
 
@@ -27,6 +28,8 @@ interface PasswordItemProps {
 }
 
 interface FieldRow {
+  /** 字段标识，用于区分不同类型（如密码、网址）的展示 / 交互 */
+  key: string
   label: string
   value: string
 }
@@ -46,14 +49,20 @@ const PasswordItem: React.FC<PasswordItemProps> = memo(function PasswordItem({
     setShowPassword((prev) => !prev)
   }, [])
 
+  // 点击网址：跳转浏览器打开（跨端实现见 utils/url）。未带协议时补全 https:// 以保证可打开
+  const handleOpenWebsite = useCallback((url: string) => {
+    const normalized = /^[a-z][a-z0-9+.-]*:\/\//i.test(url) ? url : `https://${url}`
+    openUrl(normalized)
+  }, [])
+
   const fields = useMemo<FieldRow[]>(() => [
-    { label: '用户名', value: pwd.username },
-    { label: '密码', value: pwd.password },
-    { label: '登录方式', value: pwd.loginMethod },
-    { label: '网址', value: pwd.website },
-    { label: '关联邮箱', value: pwd.email },
-    { label: '关联手机', value: pwd.phone },
-    { label: '关联微信', value: pwd.weixin },
+    { key: 'username', label: '用户名', value: pwd.username },
+    { key: 'password', label: '密码', value: pwd.password },
+    { key: 'loginMethod', label: '登录方式', value: pwd.loginMethod },
+    { key: 'website', label: '网址', value: pwd.website },
+    { key: 'email', label: '关联邮箱', value: pwd.email },
+    { key: 'phone', label: '关联手机', value: pwd.phone },
+    { key: 'weixin', label: '关联微信', value: pwd.weixin },
   ], [pwd.username, pwd.password, pwd.loginMethod, pwd.website, pwd.email, pwd.phone, pwd.weixin])
 
   const copyText = useMemo(() => {
@@ -76,18 +85,21 @@ const PasswordItem: React.FC<PasswordItemProps> = memo(function PasswordItem({
       <PasswordItemHeader title={pwd.title} isTop={pwd.isTop} createDate={pwd.createDate} icon={pwd.icon} />
 
       <View className="item-fields">
-        {fields.map(({ label, value }) => {
+        {fields.map(({ key, label, value }) => {
           if (!value) return null
-          const isPassword = label === '密码'
+          const isPassword = key === 'password'
+          const isWebsite = key === 'website'
           const display = isPassword
             ? (showPassword ? value : '•'.repeat(Math.min(value.length, 12) || 4))
             : value
           return (
-            <View className="field-row" key={label}>
+            <View className="field-row" key={key}>
               <Text className="field-label">{label}</Text>
               <Text
-                className="field-value"
-                onClick={isPassword ? togglePassword : undefined}
+                className={`field-value${isWebsite ? ' field-value-link' : ''}`}
+                onClick={isWebsite
+                  ? () => handleOpenWebsite(value)
+                  : (isPassword ? togglePassword : undefined)}
               >
                 {display}
               </Text>

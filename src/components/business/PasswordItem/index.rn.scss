@@ -49,6 +49,11 @@
   flex: 1;
 }
 
+/* 网址字段：以超链接形式展示，点击跳转浏览器打开 */
+.field-value-link {
+  color: var(--color-primary, #237166);
+}
+
 .field-password {
   color: var(--color-primary, #237166);
   letter-spacing: 4px;

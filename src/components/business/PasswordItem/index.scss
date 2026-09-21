@@ -5,3 +5,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* 网址超链接下划线（RN 端不支持 text-decoration，仅在样式表中设置） */
+.field-value-link {
+  text-decoration: underline;
+}
